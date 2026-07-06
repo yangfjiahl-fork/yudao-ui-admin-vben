@@ -511,8 +511,8 @@ catalogs:
       specifier: ^0.1.0
       version: 0.1.0
     tinymce:
-      specifier: ^7.9.3
-      version: 7.9.3
+      specifier: ^8.7.0
+      version: 8.7.0
     tippy.js:
       specifier: ^6.3.7
       version: 6.3.7
@@ -746,7 +746,7 @@ importers:
         version: 3.4.0(vue@3.5.39(typescript@6.0.3))
       '@tinymce/tinymce-vue':
         specifier: 'catalog:'
-        version: 6.3.0(tinymce@7.9.3)(vue@3.5.39(typescript@6.0.3))
+        version: 6.3.0(tinymce@8.7.0)(vue@3.5.39(typescript@6.0.3))
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access
@@ -845,7 +845,7 @@ importers:
         version: 0.1.0
       tinymce:
         specifier: 'catalog:'
-        version: 7.9.3
+        version: 8.7.0
       tyme4ts:
         specifier: 'catalog:'
         version: 1.5.2
@@ -881,7 +881,7 @@ importers:
         version: 3.3.1(vue@3.5.39(typescript@6.0.3))
       '@tinymce/tinymce-vue':
         specifier: 'catalog:'
-        version: 6.3.0(tinymce@7.9.3)(vue@3.5.39(typescript@6.0.3))
+        version: 6.3.0(tinymce@8.7.0)(vue@3.5.39(typescript@6.0.3))
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access
@@ -980,7 +980,7 @@ importers:
         version: 0.1.0
       tinymce:
         specifier: 'catalog:'
-        version: 7.9.3
+        version: 8.7.0
       tyme4ts:
         specifier: 'catalog:'
         version: 1.5.2
@@ -1016,7 +1016,7 @@ importers:
         version: 3.3.1(vue@3.5.39(typescript@6.0.3))
       '@tinymce/tinymce-vue':
         specifier: 'catalog:'
-        version: 6.3.0(tinymce@7.9.3)(vue@3.5.39(typescript@6.0.3))
+        version: 6.3.0(tinymce@8.7.0)(vue@3.5.39(typescript@6.0.3))
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access
@@ -1115,7 +1115,7 @@ importers:
         version: 0.1.0
       tinymce:
         specifier: 'catalog:'
-        version: 7.9.3
+        version: 8.7.0
       tyme4ts:
         specifier: 'catalog:'
         version: 1.5.2
@@ -1215,7 +1215,7 @@ importers:
     dependencies:
       '@tinymce/tinymce-vue':
         specifier: 'catalog:'
-        version: 6.3.0(tinymce@7.9.3)(vue@3.5.39(typescript@6.0.3))
+        version: 6.3.0(tinymce@8.7.0)(vue@3.5.39(typescript@6.0.3))
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access
@@ -1278,7 +1278,7 @@ importers:
         version: 1.20.2(vue@3.5.39(typescript@6.0.3))
       tinymce:
         specifier: 'catalog:'
-        version: 7.9.3
+        version: 8.7.0
       vue:
         specifier: ^3.5.38
         version: 3.5.39(typescript@6.0.3)
@@ -1317,14 +1317,14 @@ importers:
         version: 2.10.1(vue@3.5.39(typescript@6.0.3))
       vitepress-plugin-group-icons:
         specifier: 'catalog:'
-        version: 1.7.5(vite@8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))
+        version: 1.7.5(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))
     devDependencies:
       '@nolebase/vitepress-plugin-git-changelog':
         specifier: 'catalog:'
         version: 2.18.2(vitepress@2.0.0-alpha.17(@types/node@26.0.1)(async-validator@4.2.5)(axios@1.18.1)(jiti@2.7.0)(less@4.6.7)(lightningcss@1.32.0)(nprogress@0.2.0)(postcss@8.5.15)(qrcode@1.5.4)(sass-embedded@1.100.0)(sass@1.101.0)(sortablejs@1.15.7)(terser@5.48.0)(typescript@6.0.3)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))
       '@tailwindcss/vite':
         specifier: 'catalog:'
-        version: 4.3.1(vite@8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))
+        version: 4.3.1(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))
       '@vben/tailwind-config':
         specifier: workspace:*
         version: link:../internal/tailwind-config
@@ -1333,7 +1333,7 @@ importers:
         version: link:../internal/vite-config
       '@vite-pwa/vitepress':
         specifier: 'catalog:'
-        version: 1.1.0(vite-plugin-pwa@1.3.0(vite@8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.4.1)(workbox-window@7.4.1))
+        version: 1.1.0(vite-plugin-pwa@1.3.0(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.4.1)(workbox-window@7.4.1))
       vitepress:
         specifier: 'catalog:'
         version: 2.0.0-alpha.17(@types/node@26.0.1)(async-validator@4.2.5)(axios@1.18.1)(jiti@2.7.0)(less@4.6.7)(lightningcss@1.32.0)(nprogress@0.2.0)(postcss@8.5.15)(qrcode@1.5.4)(sass-embedded@1.100.0)(sass@1.101.0)(sortablejs@1.15.7)(terser@5.48.0)(typescript@6.0.3)(yaml@2.9.0)
@@ -11202,8 +11202,8 @@ packages:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
 
-  tinymce@7.9.3:
-    resolution: {integrity: sha512-Mtm54U5YJ6Pyo/GaAx+JSHXTGEuxrg2AowVWCD9zy1eBolp5Ub7S1rTtsyQdxhPegfhLuR3VLiTKGw1tacv09g==}
+  tinymce@8.7.0:
+    resolution: {integrity: sha512-V3fBgEzKxKT5d41/3qkXs//2SjANGHzo1MWnU2ai8nss8YrzPprrRFlDbX2X9Z6ClyQAknojs7CzEgcsTdqhPQ==}
 
   tinypool@2.1.0:
     resolution: {integrity: sha512-Pugqs6M0m7Lv1I7FtxN4aoyToKg1C4tu+/381vH35y8oENM/Ai7f7C4StcoK4/+BSw9ebcS8jRiVrORFKCALLw==}
@@ -15556,6 +15556,13 @@ snapshots:
       tailwindcss: 4.3.1
       vite: 8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0)
 
+  '@tailwindcss/vite@4.3.1(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))':
+    dependencies:
+      '@tailwindcss/node': 4.3.1
+      '@tailwindcss/oxide': 4.3.1
+      tailwindcss: 4.3.1
+      vite: 8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0)
+
   '@tanstack/store@0.11.0': {}
 
   '@tanstack/virtual-core@3.17.1': {}
@@ -15591,11 +15598,11 @@ snapshots:
       - '@sveltejs/kit'
       - svelte
 
-  '@tinymce/tinymce-vue@6.3.0(tinymce@7.9.3)(vue@3.5.39(typescript@6.0.3))':
+  '@tinymce/tinymce-vue@6.3.0(tinymce@8.7.0)(vue@3.5.39(typescript@6.0.3))':
     dependencies:
       vue: 3.5.39(typescript@6.0.3)
     optionalDependencies:
-      tinymce: 7.9.3
+      tinymce: 8.7.0
 
   '@tiptap/core@3.27.1(@tiptap/pm@3.27.1)':
     dependencies:
@@ -16337,9 +16344,9 @@ snapshots:
       global: 4.4.0
       is-function: 1.0.2
 
-  '@vite-pwa/vitepress@1.1.0(vite-plugin-pwa@1.3.0(vite@8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.4.1)(workbox-window@7.4.1))':
+  '@vite-pwa/vitepress@1.1.0(vite-plugin-pwa@1.3.0(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.4.1)(workbox-window@7.4.1))':
     dependencies:
-      vite-plugin-pwa: 1.3.0(vite@8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.4.1)(workbox-window@7.4.1)
+      vite-plugin-pwa: 1.3.0(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.4.1)(workbox-window@7.4.1)
 
   '@vitejs/plugin-vue-jsx@5.1.6(vite@8.0.10(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3))':
     dependencies:
@@ -21824,7 +21831,7 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
 
-  tinymce@7.9.3: {}
+  tinymce@8.7.0: {}
 
   tinypool@2.1.0: {}
 
@@ -22349,6 +22356,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  vite-plugin-pwa@1.3.0(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.4.1)(workbox-window@7.4.1):
+    dependencies:
+      debug: 4.4.3
+      pretty-bytes: 6.1.1
+      tinyglobby: 0.2.17
+      vite: 8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0)
+      workbox-build: 7.4.1
+      workbox-window: 7.4.1
+    transitivePeerDependencies:
+      - supports-color
+
   vite-plugin-vue-devtools@8.1.4(vite@8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.39(typescript@6.0.3)):
     dependencies:
       '@vue/devtools-core': 8.1.4(vue@3.5.39(typescript@6.0.3))
@@ -22451,13 +22469,13 @@ snapshots:
       terser: 5.48.0
       yaml: 2.9.0
 
-  vitepress-plugin-group-icons@1.7.5(vite@8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0)):
+  vitepress-plugin-group-icons@1.7.5(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0)):
     dependencies:
       '@iconify-json/logos': 1.2.11
       '@iconify-json/vscode-icons': 1.2.61
       '@iconify/utils': 3.1.3
     optionalDependencies:
-      vite: 8.0.10(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0)
+      vite: 8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0)
 
   vitepress@2.0.0-alpha.17(@types/node@26.0.1)(async-validator@4.2.5)(axios@1.18.1)(jiti@2.7.0)(less@4.6.7)(lightningcss@1.32.0)(nprogress@0.2.0)(postcss@8.5.15)(qrcode@1.5.4)(sass-embedded@1.100.0)(sass@1.101.0)(sortablejs@1.15.7)(terser@5.48.0)(typescript@6.0.3)(yaml@2.9.0):
     dependencies:
