@@ -1,0 +1,1 @@
+var e=`/png/ganmao-DC1AMm8w.png`;export{e as default};

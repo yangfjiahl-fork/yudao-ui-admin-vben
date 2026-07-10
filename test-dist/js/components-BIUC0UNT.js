@@ -1,0 +1,1 @@
+import"./detail-list-BRfJ-RAL.js";import"./edit-table-D6RM8yiN.js";

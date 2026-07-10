@@ -1,0 +1,1 @@
+var e=`/png/danao-IckdlRmE.png`;export{e as default};

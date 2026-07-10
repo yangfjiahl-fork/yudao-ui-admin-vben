@@ -1,0 +1,1 @@
+import{ui as e,wi as t}from"../jse/index-index-Bx8lAAPh.js";function n(n,r,i){let a=t(n());return e(r,(e,t)=>{i?i(e,t)&&(a.value=n()):a.value=n()}),a}export{n as t};

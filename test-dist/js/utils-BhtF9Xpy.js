@@ -1,0 +1,1 @@
+import{n as e,z as t}from"./consts-Bi_fSFCd.js";function n(e){return e===`M`?t.MINUTE:e===`H`?t.HOUR:e===`D`?t.DAY:t.HOUR}function r(t){let n=``;return e.forEach(e=>{e.value===t&&(n=e.label)}),n}export{r as n,n as t};

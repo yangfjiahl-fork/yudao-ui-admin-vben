@@ -1,0 +1,1 @@
+var e=`/png/jingkong-CaxiyssP.png`;export{e as default};

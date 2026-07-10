@@ -1,0 +1,1 @@
+var e=`/png/kun-BeICuggt.png`;export{e as default};

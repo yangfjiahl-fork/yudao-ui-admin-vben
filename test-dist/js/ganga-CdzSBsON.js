@@ -1,0 +1,1 @@
+var e=`/png/ganga-H-EkRHGS.png`;export{e as default};

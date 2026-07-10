@@ -1,0 +1,1 @@
+import{Di as e,di as t}from"../jse/index-index-Bx8lAAPh.js";function n(n){let r=e();return t(()=>{r.value=n()},{flush:`sync`}),r}export{n as t};

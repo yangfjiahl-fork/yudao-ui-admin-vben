@@ -1,0 +1,1 @@
+import{Mr as e,Ni as t,Zr as n,wr as r}from"../jse/index-index-Bx8lAAPh.js";import{t as i}from"./fallback-DWK4KsVx.js";var a=e({__name:`coming-soon`,setup(e){return(e,a)=>(n(),r(t(i),{status:`coming-soon`}))}});export{a as default};

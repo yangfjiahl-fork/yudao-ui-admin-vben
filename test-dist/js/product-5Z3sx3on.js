@@ -1,0 +1,1 @@
+import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/statistics/product/analyse`,{params:t})}function n(t){return e.get(`/statistics/product/list`,{params:t})}function r(t){return e.download(`/statistics/product/export-excel`,{params:t})}function i(t){return e.get(`/statistics/product/rank-page`,{params:t})}export{i,t as n,n as r,r as t};

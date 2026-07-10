@@ -1,0 +1,1 @@
+import{Lr as e,Qr as t,Si as n,di as r}from"../jse/index-index-Bx8lAAPh.js";import{i}from"./en_US-C1qq2cES.js";function a(a){let o=Symbol(`contextKey`);return{useProvide:(e,a)=>{let s=n({});return t(o,s),r(()=>{i(s,e,a||{})}),s},useInject:()=>e(o,a)||{}}}export{a as t};

@@ -1,0 +1,1 @@
+import{n as e}from"./request-cmu3csZO.js";function t(t){return e.post(`/mes/cal/team-member/create`,t)}function n(t){return e.delete(`/mes/cal/team-member/delete?id=${t}`)}function r(t){return e.get(`/mes/cal/team-member/list-by-team`,{params:{teamId:t}})}export{n,r,t};

@@ -1,0 +1,1 @@
+import{n as e}from"./request-cmu3csZO.js";function t(t){return e.put(`/mp/user/update`,t)}function n(t){return e.get(`/mp/user/get`,{params:{id:t}})}function r(t){return e.get(`/mp/user/page`,{params:t})}function i(t){return e.post(`/mp/user/sync`,null,{params:{accountId:t}})}export{t as i,r as n,i as r,n as t};

@@ -1,0 +1,1 @@
+var e=`/png/xiaoku-BX0Suf69.png`;export{e as default};

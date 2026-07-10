@@ -1,0 +1,1 @@
+var e=`/png/xinsui-DAcLsI5n.png`;export{e as default};

@@ -1,0 +1,1 @@
+import{r as e}from"./chunk-TknUb_Di.js";import{Ar as t,Er as n,Mr as r,Ni as i,Zr as a}from"../jse/index-index-Bx8lAAPh.js";import{t as o}from"./skeleton-bBORen9h.js";var s={class:`p-8`},c=r({__name:`loading`,setup(e){return(e,r)=>(a(),n(`div`,s,[t(i(o),{active:``})]))}}),l=e({default:()=>u}),u=c;export{l as n,u as t};

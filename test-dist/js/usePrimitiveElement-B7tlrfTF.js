@@ -1,0 +1,1 @@
+import{S as e,Sr as t,wi as n}from"../jse/index-index-Bx8lAAPh.js";function r(){let r=n();return{primitiveElement:r,currentElement:t(()=>{var t,n;return[`#text`,`#comment`].includes((t=r.value)==null?void 0:t.$el.nodeName)?(n=r.value)==null?void 0:n.$el.nextElementSibling:e(r)})}}export{r as t};

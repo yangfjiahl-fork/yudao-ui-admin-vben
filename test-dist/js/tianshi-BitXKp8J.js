@@ -1,0 +1,1 @@
+var e=`/png/tianshi-OitbTsYJ.png`;export{e as default};

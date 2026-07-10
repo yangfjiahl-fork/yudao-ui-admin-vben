@@ -1,0 +1,1 @@
+import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/mes/cal/holiday/list`,{params:t})}function n(t){return e.get(`/mes/cal/holiday/get-by-day`,{params:{day:t}})}function r(t){return e.post(`/mes/cal/holiday/save`,t)}export{t as n,r,n as t};

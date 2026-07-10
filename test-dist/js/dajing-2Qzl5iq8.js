@@ -1,0 +1,1 @@
+var e=`/png/dajing-BxS3rg_B.png`;export{e as default};

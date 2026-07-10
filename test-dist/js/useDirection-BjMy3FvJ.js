@@ -1,0 +1,1 @@
+import{Sr as e,wi as t}from"../jse/index-index-Bx8lAAPh.js";import{o as n}from"./useId-BjjBKBa4.js";function r(r){let i=n({dir:t(`ltr`)});return e(()=>{var e;return(r==null?void 0:r.value)||((e=i.dir)==null?void 0:e.value)||`ltr`})}export{r as t};

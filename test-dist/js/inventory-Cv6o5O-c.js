@@ -1,0 +1,1 @@
+import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/wms/inventory/page`,{params:t})}function n(t){return e.get(`/wms/inventory/list`,{params:t})}export{t as n,n as t};

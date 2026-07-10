@@ -1,0 +1,1 @@
+import{n as e,t}from"./isObjectLike-7dxV_I67.js";var n=`[object Symbol]`;function r(r){return typeof r==`symbol`||t(r)&&e(r)==n}export{r as t};

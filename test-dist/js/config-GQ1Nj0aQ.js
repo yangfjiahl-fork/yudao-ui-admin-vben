@@ -1,0 +1,1 @@
+import{n as e}from"./request-cmu3csZO.js";function t(){return e.get(`/trade/config/get`)}function n(t){return e.put(`/trade/config/save`,t)}export{n,t};

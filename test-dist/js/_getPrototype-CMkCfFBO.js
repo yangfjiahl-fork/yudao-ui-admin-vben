@@ -1,0 +1,1 @@
+import{a as e}from"./_getTag-Drn7kJ_-.js";var t=e(Object.getPrototypeOf,Object);export{t};
