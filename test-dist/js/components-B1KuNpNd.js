@@ -1,1 +1,0 @@
-import"./info-BJ_Jpztj.js";import"./detail-list-bC9qy8pH.js";

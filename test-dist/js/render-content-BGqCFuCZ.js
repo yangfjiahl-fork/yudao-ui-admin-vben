@@ -1,2 +1,0 @@
-import{$n as e,Fr as t,Mr as n,Wi as r,Zi as i,er as a,qi as o}from"../jse/index-index-Bx8lAAPh.js";a();var s=n({name:`RenderContent`,props:{content:{default:void 0,type:[Object,String,Function]},renderBr:{default:!1,type:Boolean}},setup(n,{attrs:a,slots:s}){return()=>{if(!n.content)return null;if(!((o(n.content)||r(n.content))&&n.content!==null))if(n.renderBr&&i(n.content)){let e=n.content.split(`
-`),r=[];for(let[n,i]of e.entries())r.push(t(`p`,{key:n},i));return r}else return n.content;return t(n.content,e(e({},a),{},{props:e(e({},n),a)}),s)}}});export{s as t};

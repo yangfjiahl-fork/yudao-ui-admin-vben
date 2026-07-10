@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/mes/wm/batch/get?id=${t}`)}function n(t){return e.get(`/mes/wm/batch/page`,{params:t})}function r(t){return e.get(`/mes/wm/batch/forward-list`,{params:{code:t}})}function i(t){return e.get(`/mes/wm/batch/backward-list`,{params:{code:t}})}export{r as i,t as n,n as r,i as t};

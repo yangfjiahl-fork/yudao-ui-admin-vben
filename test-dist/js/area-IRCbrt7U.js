@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(){return e.get(`/system/area/tree`)}function n(t){return e.get(`/system/area/get-by-ip?ip=${t}`)}export{t as n,n as t};

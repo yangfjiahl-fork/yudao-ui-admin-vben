@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/pay/wallet/get`,{params:t})}function n(t){return e.get(`/pay/wallet/page`,{params:t})}function r(t){return e.put(`/pay/wallet/update-balance`,t)}export{n,r,t};

@@ -1,1 +1,0 @@
-var e=`/png/fankun-CGGH57yF.png`;export{e as default};

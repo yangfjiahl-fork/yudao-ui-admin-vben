@@ -1,1 +1,0 @@
-import{t as e}from"./ProcessDesigner-C0S44rVx.js";import{t}from"./ProcessViewer-CBE16quv.js";import{t as n}from"./PropertiesPanel-DLfxnq1T.js";e.install=function(t){t.component(e.name,e)};var r=e;t.install=function(e){e.component(t.name,t)};var i=t;n.install=function(e){e.component(n.name,n)};var a=n;export{i as n,r,a as t};

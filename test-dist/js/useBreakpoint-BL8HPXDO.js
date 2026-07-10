@@ -1,1 +1,0 @@
-import{Di as e,Jr as t,Yr as n}from"../jse/index-index-Bx8lAAPh.js";import{n as r}from"./responsiveObserve-DbkvfPvZ.js";function i(){let i=e({}),a=null,o=r();return t(()=>{a=o.value.subscribe(e=>{i.value=e})}),n(()=>{o.value.unsubscribe(a)}),i}export{i as t};

@@ -1,1 +1,0 @@
-import{lt as e}from"./useConfigInject-BflBSvTv.js";import{t}from"./Col-VDvl0s0p.js";var n=e(t);export{n as t};

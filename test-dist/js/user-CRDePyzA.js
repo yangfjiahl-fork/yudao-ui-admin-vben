@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/member/user/page`,{params:t})}function n(t){return e.get(`/member/user/get?id=${t}`)}function r(t){return e.put(`/member/user/update`,t)}function i(t){return e.put(`/member/user/update-level`,t)}function a(t){return e.put(`/member/user/update-point`,t)}export{a,i,t as n,r,n as t};

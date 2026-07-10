@@ -1,1 +1,0 @@
-:deep(.ant-carousel .ant-carousel-dots) .ant-carousel-dot{border-radius:6px;width:6px;height:6px}:deep(.ant-carousel .ant-carousel-dots) .ant-carousel-dot button{background:hsl(var(--red));border-radius:6px;width:6px;height:6px}:deep(.ant-carousel .ant-carousel-dots) .ant-carousel-dot-active button{background:hsl(var(--red));width:12px}

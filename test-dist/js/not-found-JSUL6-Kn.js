@@ -1,1 +1,0 @@
-import{$n as e,Mr as t,Ni as n,Zr as r,er as i,wr as a}from"../jse/index-index-Bx8lAAPh.js";import{t as o}from"./fallback-DWK4KsVx.js";i();var s=t(e(e({},{name:`Fallback404Demo`}),{},{__name:`not-found`,setup(e){return(e,t)=>(r(),a(n(o),{status:`404`}))}}));export{s as default};

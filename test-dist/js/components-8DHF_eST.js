@@ -1,1 +1,0 @@
-import"./detail-list-BZbVE_dU.js";

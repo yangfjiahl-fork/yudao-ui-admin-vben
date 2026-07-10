@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/trade/brokerage-record/page`,{params:t})}export{t};

@@ -1,1 +1,0 @@
-import"./detail-list-3nBx2a9o.js";import"./detail-list-B2c_hnc_.js";

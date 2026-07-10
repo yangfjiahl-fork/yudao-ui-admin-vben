@@ -1,1 +1,0 @@
-var e=`/png/shuizhuo-O_8EZ920.png`;export{e as default};

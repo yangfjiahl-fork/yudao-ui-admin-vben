@@ -1,1 +1,0 @@
-var e=`/png/aixin-UoJKe-pp.png`;export{e as default};

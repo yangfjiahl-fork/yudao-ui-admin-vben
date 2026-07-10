@@ -1,1 +1,0 @@
-import{t as e}from"./access-BMP-GBZW.js";import{n as t,t as n}from"./useUpload-D31pQ4dh.js";var r={Authorization:`Bearer ${e().accessToken}`},i=`http://127.0.0.1:48080/admin-api/mp/material/upload-permanent`,a=function(e){return t(n.Image,2)(e)},o=function(e){return t(n.Voice,2)(e)},s=function(e){return t(n.Video,10)(e)};export{o as a,s as i,i as n,a as r,r as t};

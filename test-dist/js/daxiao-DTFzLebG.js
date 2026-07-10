@@ -1,1 +1,0 @@
-var e=`/png/daxiao-D51FuK7O.png`;export{e as default};

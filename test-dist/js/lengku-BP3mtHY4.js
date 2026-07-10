@@ -1,1 +1,0 @@
-var e=`/png/lengku-DKHN9jn6.png`;export{e as default};

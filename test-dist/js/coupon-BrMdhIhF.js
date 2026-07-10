@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t){return e.delete(`/promotion/coupon/delete?id=${t}`)}function n(t){return e.get(`/promotion/coupon/page`,{params:t})}function r(t){return e.post(`/promotion/coupon/send`,t)}export{n,r,t};

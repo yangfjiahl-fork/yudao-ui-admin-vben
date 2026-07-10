@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t,n){return e.post(`/mes/md/auto-code-record/generate`,{inputChar:n,ruleCode:t})}export{t};

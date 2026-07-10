@@ -1,1 +1,0 @@
-import{$n as e,Mr as t,Ni as n,Zr as r,er as i,wr as a}from"../jse/index-index-Bx8lAAPh.js";import{t as o}from"./image-BKWuD1nS.js";i();var s=t(e(e({},{name:`UserWallet`}),{},{__name:`index`,props:{property:{}},setup(e){return(e,t)=>(r(),a(n(o),{src:`https://shopro.sheepjs.com/admin/static/images/shop/decorate/walletCardStyle.png`,preview:!1}))}}));export{s as default};

@@ -1,1 +1,0 @@
-var e=`/png/feiwen-RntG4UKY.png`;export{e as default};

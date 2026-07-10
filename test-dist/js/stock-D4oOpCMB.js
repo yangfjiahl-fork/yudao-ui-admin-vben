@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/erp/stock/page`,{params:t})}function n(t,n){let r={productId:t};return n!==void 0&&(r.warehouseId=n),e.get(`/erp/stock/get-count`,{params:r})}function r(t){return e.download(`/erp/stock/export-excel`,{params:t})}function i(t){return e.get(`/erp/stock/get-count`,{params:t})}export{i,n,t as r,r as t};

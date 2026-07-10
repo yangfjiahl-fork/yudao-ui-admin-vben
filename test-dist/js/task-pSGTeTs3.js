@@ -1,1 +1,0 @@
-import{n as e}from"./request-cmu3csZO.js";function t(t){return e.get(`/iot/ota/task/page`,{params:t})}function n(t){return e.get(`/iot/ota/task/get?id=${t}`)}function r(t){return e.post(`/iot/ota/task/create`,t)}function i(t){return e.post(`/iot/ota/task/cancel?id=${t}`)}export{t as i,r as n,n as r,i as t};

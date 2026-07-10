@@ -1,1 +1,0 @@
-var e=`/png/fennu-B7vTjwXu.png`;export{e as default};

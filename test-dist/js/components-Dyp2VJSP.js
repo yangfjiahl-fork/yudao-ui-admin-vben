@@ -1,1 +1,0 @@
-import"./detail-list-DahwsvM2.js";
