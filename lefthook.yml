@@ -47,22 +47,30 @@ pre-commit:
   jobs:
     - name: oxlint
       glob: '*.{js,jsx,ts,tsx,vue,cjs,mjs,cts,mts}'
+      exclude: 'test-dist/**'
       run: pnpm exec oxlint --fix --type-aware --threads=4 --no-error-on-unmatched-pattern {staged_files}
       stage_fixed: true
     - name: oxfmt
       glob: '*.{js,jsx,ts,tsx,vue,cjs,mjs,cts,mts,json,jsonc}'
+      exclude: 'test-dist/**'
       run: pnpm exec oxfmt --threads=4 --no-error-on-unmatched-pattern {staged_files}
       stage_fixed: true
     - name: eslint
       glob: '*.{js,jsx,ts,tsx,vue,cjs,mjs,cts,mts}'
+      exclude: 'test-dist/**'
       run: pnpm exec eslint --fix {staged_files}
       stage_fixed: true
     - name: stylelint
       glob: '*.{vue,css,less,scss}'
+      exclude: 'test-dist/**'
       run: pnpm exec stylelint --fix {staged_files}
       stage_fixed: true
     - name: checkType
-      run: pnpm check:type
+      files: git diff --cached --name-only --diff-filter=ACMR | grep -v '^test-dist/' || true
+      run: |
+        if [ -n "{staged_files}" ]; then
+          pnpm check:type
+        fi
 
 post-merge:
   commands:

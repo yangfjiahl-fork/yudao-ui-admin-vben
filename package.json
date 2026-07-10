@@ -30,6 +30,7 @@
     "build:analyze": "turbo build:analyze",
     "build:antd": "pnpm run build --filter=@vben/web-antd",
     "build:antdv-next": "pnpm run build --filter=@vben/web-antdv-next",
+    "build:dev": "pnpm -F @vben/web-antd exec vite build --mode development",
     "build:docker": "./scripts/deploy/build-local-docker-image.sh",
     "build:docs": "pnpm run build --filter=@vben/docs",
     "build:ele": "pnpm run build --filter=@vben/web-ele",
