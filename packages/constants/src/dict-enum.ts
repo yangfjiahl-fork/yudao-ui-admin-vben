@@ -279,6 +279,10 @@ const WMS_DICT = {
   WMS_SHIPMENT_ORDER_TYPE: 'wms_shipment_order_type', // WMS 出库单类型
 } as const;
 
+/** ========== Gift - 羔享模块 ========== */
+const GIFT_DICT = {
+  GIFT_WOOL_STATUS: 'gift_wool_status', // 羊毛收取状态
+} as const;
 /** 字典类型枚举 - 统一导出 */
 const DICT_TYPE = {
   ...AI_DICT,
@@ -294,6 +298,7 @@ const DICT_TYPE = {
   ...MP_DICT,
   ...PAY_DICT,
   ...MALL_DICT,
+  ...GIFT_DICT,
   ...SYSTEM_DICT,
   ...COMMON_DICT,
 } as const;
