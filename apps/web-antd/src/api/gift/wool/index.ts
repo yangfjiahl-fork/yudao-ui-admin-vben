@@ -11,6 +11,7 @@ export namespace GiftWoolApi {
     amount?: number; // 数量
     status?: string; // 状态
     memberId?: number; // 会员编号
+    remark?: string; // 备注
   }
 }
 

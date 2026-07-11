@@ -10,6 +10,7 @@ export namespace MemberPointRecordApi {
     bizType: string;
     title: string;
     description: string;
+    remark: string;
     point: number;
     totalPoint: number;
     userId: number;

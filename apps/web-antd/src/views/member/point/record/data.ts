@@ -104,6 +104,11 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       minWidth: 200,
     },
     {
+      field: 'remark',
+      title: '备注',
+      minWidth: 200,
+    },
+    {
       field: 'bizId',
       title: '业务编码',
       minWidth: 120,

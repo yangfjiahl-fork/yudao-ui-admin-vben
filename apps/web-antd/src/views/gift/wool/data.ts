@@ -65,6 +65,14 @@ export function useFormSchema(): VbenFormSchema[] {
         placeholder: '请输入会员编号',
       },
     },
+    {
+      fieldName: 'remark',
+      label: '备注',
+      component: 'Input',
+      componentProps: {
+        placeholder: '请输入备注',
+      },
+    },
   ];
 }
 
@@ -162,6 +170,11 @@ export function useGridColumns(): VxeTableGridOptions<GiftWoolApi.Wool>['columns
       field: 'memberId',
       title: '会员编号',
       minWidth: 120,
+    },
+    {
+      field: 'remark',
+      title: '备注',
+      minWidth: 200,
     },
     {
       field: 'createTime',
