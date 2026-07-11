@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MemberSignInConfigApi } from '#/api/member/signin/config';
 
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
@@ -19,6 +19,32 @@ import { useFormSchema } from '../data';
 
 const emit = defineEmits(['success']);
 const formData = ref<MemberSignInConfigApi.SignInConfig>();
+function toNumber(value: unknown) {
+  if (value === null || value === undefined || value === '') {
+    return undefined;
+  }
+  const numberValue = Number(value);
+  return Number.isNaN(numberValue) ? undefined : numberValue;
+}
+function normalizeSignInConfig(data: MemberSignInConfigApi.SignInConfig) {
+  return {
+    ...data,
+    id: toNumber(data.id),
+    day: toNumber(data.day),
+    point: toNumber(data.point),
+    experience: toNumber(data.experience),
+    status: toNumber(data.status),
+  };
+}
+function getEmptyFormValues() {
+  return {
+    id: undefined,
+    day: undefined,
+    point: undefined,
+    experience: undefined,
+    status: undefined,
+  };
+}
 const getTitle = computed(() => {
   return formData.value?.id
     ? $t('ui.actionTitle.edit', ['签到配置'])
@@ -67,12 +93,14 @@ const [Modal, modalApi] = useVbenModal({
     }
     // 加载数据
     const data = modalApi.getData<MemberSignInConfigApi.SignInConfig>();
+    await nextTick();
+    await formApi.resetForm({ values: getEmptyFormValues() });
     if (!data || !data.id) {
       return;
     }
     modalApi.lock();
     try {
-      formData.value = await getSignInConfig(data.id);
+      formData.value = normalizeSignInConfig(await getSignInConfig(data.id));
       // 设置到 values
       await formApi.setValues(formData.value);
     } finally {
