@@ -179,7 +179,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftWoolApi.Wool>['columns
     {
       field: 'createTime',
       title: '创建时间',
-      minWidth: 120,
+      minWidth: 160,
       formatter: 'formatDateTime',
     },
     {
