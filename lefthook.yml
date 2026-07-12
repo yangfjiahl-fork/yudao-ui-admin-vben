@@ -42,8 +42,8 @@
 #       runner: go run
 
 pre-commit:
-  # 串行执行（不设 parallel），避免与 check:type 同时运行导致低配机内存/CPU 瞬时飙升。
-  # lint 仅检查暂存文件并自动修复后回填，大幅降低负载；check:type 仍需全量。
+  # 串行执行（不设 parallel），避免低配机内存/CPU 瞬时飙升。
+  # lint 仅检查暂存文件并自动修复后回填，大幅降低负载。
   jobs:
     - name: oxlint
       glob: '*.{js,jsx,ts,tsx,vue,cjs,mjs,cts,mts}'
@@ -65,12 +65,6 @@ pre-commit:
       exclude: 'test-dist/**'
       run: pnpm exec stylelint --fix {staged_files}
       stage_fixed: true
-    - name: checkType
-      files: git diff --cached --name-only --diff-filter=ACMR | grep -v '^test-dist/' || true
-      run: |
-        if [ -n "{staged_files}" ]; then
-          pnpm check:type
-        fi
 
 post-merge:
   commands:

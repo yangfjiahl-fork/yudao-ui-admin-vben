@@ -113,11 +113,17 @@ const [SkuForm, skuFormApi] = useVbenForm({
   schema: useSkuFormSchema(propertyList.value, isDetail.value),
   showDefaultActions: false,
   handleValuesChange: (values, fieldsChanged) => {
-    if (fieldsChanged.includes('subCommissionType')) {
+    if (
+      fieldsChanged.includes('subCommissionType') &&
+      values.subCommissionType !== formData.value.subCommissionType
+    ) {
       formData.value.subCommissionType = values.subCommissionType;
       handleChangeSubCommissionType();
     }
-    if (fieldsChanged.includes('specType')) {
+    if (
+      fieldsChanged.includes('specType') &&
+      values.specType !== formData.value.specType
+    ) {
       formData.value.specType = values.specType;
       handleChangeSpec();
     }
