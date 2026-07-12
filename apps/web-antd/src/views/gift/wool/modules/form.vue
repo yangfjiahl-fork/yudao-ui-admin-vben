@@ -15,6 +15,10 @@ import { useFormSchema } from '../data';
 
 const emit = defineEmits(['success']);
 const formData = ref<GiftWoolApi.Wool>();
+const CREATE_WOOL_DEFAULT_VALUES: Partial<GiftWoolApi.Wool> = {
+  bizType: '2',
+  status: '1',
+};
 const getTitle = computed(() => {
   return formData.value?.id
     ? $t('ui.actionTitle.edit', ['羊毛'])
@@ -59,8 +63,10 @@ const [Modal, modalApi] = useVbenModal({
       return;
     }
     // 加载数据
+    await formApi.resetForm();
     const data = modalApi.getData<GiftWoolApi.Wool>();
     if (!data || !data.id) {
+      await formApi.setValues(CREATE_WOOL_DEFAULT_VALUES);
       return;
     }
     modalApi.lock();

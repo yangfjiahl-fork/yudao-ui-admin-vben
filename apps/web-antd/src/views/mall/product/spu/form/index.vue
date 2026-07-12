@@ -16,6 +16,7 @@ import { Button, Card, message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { createSpu, getSpu, updateSpu } from '#/api/mall/product/spu';
+import { $t } from '#/locales';
 import { getPropertyList, SkuList } from '#/views/mall/product/spu/components';
 
 import {
@@ -221,6 +222,7 @@ async function handleSubmit() {
 
   // 提交数据
   await (spuId.value ? updateSpu(values) : createSpu(values));
+  message.success($t('ui.actionMessage.operationSuccess'));
 }
 
 /** 获得详情 */
