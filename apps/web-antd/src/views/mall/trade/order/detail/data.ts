@@ -164,7 +164,7 @@ export function useDeliveryInfoSchema(): DescriptionItemSchema[] {
       label: '联系电话',
     },
     {
-      field: 'receiverAddress',
+      field: 'receiverDetailAddress',
       label: '收货地址',
       render: (val, data) => `${data?.receiverAreaName} ${val}`.trim(),
     },

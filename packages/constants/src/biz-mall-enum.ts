@@ -209,6 +209,10 @@ export const DeliveryTypeEnum = {
     type: 2,
     name: '到店自提',
   },
+  VIRTUAL: {
+    type: 3,
+    name: '免配送',
+  },
 };
 /**
  * 交易订单 - 状态
