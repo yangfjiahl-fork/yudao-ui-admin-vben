@@ -177,7 +177,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftVideoApi.Video>['colum
     {
       field: 'createTime',
       title: '创建时间',
-      minWidth: 120,
+      minWidth: 150,
       formatter: 'formatDateTime',
     },
     {
