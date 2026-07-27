@@ -18,24 +18,25 @@ export const schema: VbenFormSchema[] = [
   {
     component: 'InputNumber',
     fieldName: 'pointTradeDeductUnitPrice',
-    label: '积分抵扣',
-    help: '积分抵用比例(1 积分抵多少金额)，单位：元',
+    label: '1积分抵扣x元',
+    help: '积分抵扣比例(1 积分抵多少 元)，单位：元',
     componentProps: {
       class: '!w-full',
       min: 0,
-      precision: 2,
+      precision: 3,
+      step: 0.001,
       placeholder: '请输入积分抵扣单价',
     },
   },
   {
     component: 'InputNumber',
     fieldName: 'pointTradeDeductMaxPrice',
-    label: '积分抵扣最大值',
+    label: '积分抵扣最大数量',
     help: '单次下单积分使用上限，0 不限制',
     componentProps: {
       class: '!w-full',
       min: 0,
-      placeholder: '请输入积分抵扣最大值',
+      placeholder: '请输入积分抵扣最大数量',
     },
   },
   {

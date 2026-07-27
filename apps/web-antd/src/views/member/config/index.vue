@@ -4,7 +4,7 @@ import type { MemberConfigApi } from '#/api/member/config';
 import { onMounted, ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
-import { fenToYuan, yuanToFen } from '@vben/utils';
+// import { fenToYuan, yuanToFen } from '@vben/utils';
 
 import { Card, message } from 'ant-design-vue';
 
@@ -18,12 +18,20 @@ const formData = ref<MemberConfigApi.Config>();
 
 const [Form, formApi] = useVbenForm({
   commonConfig: {
-    labelWidth: 120,
+    labelWidth: 200,
   },
   layout: 'horizontal',
   schema,
   handleSubmit,
 });
+
+function yuanToFen(yuan: number) {
+  return Math.round((yuan * 100 + Number.EPSILON) * 10) / 10;
+}
+
+function fenToYuan(fen: number) {
+  return `${fen / 100}`;
+}
 
 /** 提交表单 */
 async function handleSubmit() {
@@ -61,7 +69,7 @@ onMounted(() => {
 <template>
   <Page auto-content-height>
     <Card title="积分设置">
-      <Form class="w-1/4" />
+      <Form class="w-1/3" />
     </Card>
   </Page>
 </template>
