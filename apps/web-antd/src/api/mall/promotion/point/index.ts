@@ -86,3 +86,8 @@ export function deletePointActivity(id: number) {
 export function closePointActivity(id: number) {
   return requestClient.put(`/promotion/point-activity/close?id=${id}`);
 }
+
+/** 开启积分商城活动 */
+export function openPointActivity(id: number) {
+  return requestClient.put(`/promotion/point-activity/open?id=${id}`);
+}

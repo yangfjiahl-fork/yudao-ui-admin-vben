@@ -41,9 +41,19 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       },
     },
     {
+      field: 'spuId',
+      title: '商品编号',
+      minWidth: 100,
+    },
+    {
       field: 'spuName',
       title: '商品标题',
       minWidth: 300,
+    },
+    {
+      field: 'sort',
+      title: '排序',
+      minWidth: 50,
     },
     {
       field: 'marketPrice',

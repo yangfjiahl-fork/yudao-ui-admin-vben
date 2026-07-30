@@ -10,6 +10,7 @@ import {
   closePointActivity,
   deletePointActivity,
   getPointActivityPage,
+  openPointActivity,
 } from '#/api/mall/promotion/point';
 import { $t } from '#/locales';
 
@@ -47,6 +48,21 @@ async function handleClose(row: any) {
   try {
     await closePointActivity(row.id);
     message.success('关闭成功');
+    handleRefresh();
+  } finally {
+    hideLoading();
+  }
+}
+
+/** 开启积分商城活动 */
+async function handleOpen(row: any) {
+  const hideLoading = message.loading({
+    content: '正在开启中...',
+    duration: 0,
+  });
+  try {
+    await openPointActivity(row.id);
+    message.success('开启成功');
     handleRefresh();
   } finally {
     hideLoading();
@@ -136,6 +152,17 @@ const [Grid, gridApi] = useVbenVxeGrid({
               popConfirm: {
                 title: '确认关闭该积分商城活动吗？',
                 confirm: handleClose.bind(null, row),
+              },
+            },
+            {
+              label: '开启',
+              type: 'link',
+              icon: ACTION_ICON.ADD,
+              ifShow: row.status === 1,
+              auth: ['promotion:point-activity:close'],
+              popConfirm: {
+                title: '确认开启该积分商城活动吗？',
+                confirm: handleOpen.bind(null, row),
               },
             },
             {
