@@ -104,6 +104,16 @@ const [InfoForm, infoFormApi] = useVbenForm({
   layout: 'horizontal',
   schema: useInfoFormSchema(),
   showDefaultActions: false,
+  handleValuesChange: async (values, fieldsChanged) => {
+    if (
+      !spuId.value &&
+      fieldsChanged.includes('picUrl') &&
+      values.picUrl &&
+      (!values.sliderPicUrls || values.sliderPicUrls.length === 0)
+    ) {
+      await infoFormApi.setFieldValue('sliderPicUrls', [values.picUrl]);
+    }
+  },
 });
 
 const [SkuForm, skuFormApi] = useVbenForm({
