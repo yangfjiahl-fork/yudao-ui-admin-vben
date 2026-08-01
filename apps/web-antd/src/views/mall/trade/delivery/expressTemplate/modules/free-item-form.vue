@@ -118,8 +118,12 @@ function validate() {
         `包邮设置第 ${i + 1} 行：${columnTitle.value?.freeCountTitle}必须大于 0`,
       );
     }
-    if (!item.freePrice || item.freePrice <= 0) {
-      throw new Error(`包邮设置第 ${i + 1} 行：包邮金额必须大于 0`);
+    if (
+      item.freePrice === undefined ||
+      item.freePrice === null ||
+      item.freePrice < 0
+    ) {
+      throw new Error(`包邮设置第 ${i + 1} 行：包邮金额必须大于等于 0`);
     }
   }
 }

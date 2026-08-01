@@ -107,21 +107,8 @@ export function useGridColumns(): VxeTableGridOptions<GiftVideoApi.Video>['colum
       field: 'coverUrl',
       title: '视频封面图',
       minWidth: 120,
-      // 使用 slots.default 替代 cellRender
-      slots: {
-        default: ({ row }) => {
-          if (!row.coverUrl) return '-';
-          return h(
-            'a',
-            {
-              href: row.coverUrl,
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              class: 'text-primary hover:underline',
-            },
-            '查看封面图片',
-          );
-        },
+      cellRender: {
+        name: 'CellImage',
       },
     },
     {
@@ -147,8 +134,17 @@ export function useGridColumns(): VxeTableGridOptions<GiftVideoApi.Video>['colum
     },
     {
       field: 'duration',
-      title: '视频时长毫秒',
+      title: '视频时长',
       minWidth: 120,
+      slots: {
+        default: ({ row }) => {
+          if (row.duration === undefined || row.duration === null) return '-';
+          const totalSeconds = Math.floor(row.duration / 1000);
+          const minutes = Math.floor(totalSeconds / 60);
+          const seconds = totalSeconds % 60;
+          return `${minutes}分${seconds.toString().padStart(2, '0')}秒`;
+        },
+      },
     },
     {
       field: 'width',

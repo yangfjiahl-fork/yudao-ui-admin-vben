@@ -120,16 +120,24 @@ function validate() {
         `运费设置第 ${i + 1} 行：${columnTitle.value?.startCountTitle}必须大于 0`,
       );
     }
-    if (!item.startPrice || item.startPrice <= 0) {
-      throw new Error(`运费设置第 ${i + 1} 行：运费必须大于0`);
+    if (
+      item.startPrice === undefined ||
+      item.startPrice === null ||
+      item.startPrice < 0
+    ) {
+      throw new Error(`运费设置第 ${i + 1} 行：运费必须大于等于 0`);
     }
     if (!item.extraCount || item.extraCount <= 0) {
       throw new Error(
         `运费设置第 ${i + 1} 行：${columnTitle.value?.extraCountTitle}必须大于 0`,
       );
     }
-    if (!item.extraPrice || item.extraPrice <= 0) {
-      throw new Error(`运费设置第 ${i + 1} 行：续费必须大于 0`);
+    if (
+      item.extraPrice === undefined ||
+      item.extraPrice === null ||
+      item.extraPrice < 0
+    ) {
+      throw new Error(`运费设置第 ${i + 1} 行：续费必须大于等于 0`);
     }
   }
 }
