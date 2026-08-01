@@ -28,6 +28,7 @@ defineOptions({ name: 'ImageUpload', inheritAttrs: false });
 const props = withDefaults(defineProps<FileUploadProps>(), {
   value: () => [],
   modelValue: undefined,
+  checkDuplicate: false,
   directory: undefined,
   disabled: false,
   listType: 'picture-card',
@@ -72,8 +73,6 @@ const fileList = ref<UploadProps['fileList']>([]);
 const isLtMsg = ref<boolean>(true); // 文件大小错误提示
 const isActMsg = ref<boolean>(true); // 文件类型错误提示
 const isFirstRender = ref<boolean>(true); // 是否第一次渲染
-const uploadNumber = ref<number>(0); // 上传文件计数器
-const uploadList = ref<any[]>([]); // 临时上传列表
 
 watch(
   currentValue,
@@ -193,8 +192,6 @@ async function beforeUpload(file: File) {
     return Upload.LIST_IGNORE;
   }
 
-  // 只有在验证通过后才增加计数器
-  uploadNumber.value++;
   return true;
 }
 
@@ -202,7 +199,7 @@ async function beforeUpload(file: File) {
 async function customRequest(info: UploadRequestOption) {
   let { api } = props;
   if (!api || !isFunction(api)) {
-    api = useUpload(props.directory).httpRequest;
+    api = useUpload(props.directory, props.checkDuplicate).httpRequest;
   }
   try {
     // 上传文件
@@ -213,7 +210,7 @@ async function customRequest(info: UploadRequestOption) {
     const res = await api?.(info.file as File, progressEvent);
 
     // 处理上传成功后的逻辑
-    handleUploadSuccess(res, info.file as File);
+    handleUploadSuccess(res, info.file as UploadFile);
 
     info.onSuccess!(res);
     message.success($t('ui.upload.uploadSuccess'));
@@ -229,43 +226,28 @@ async function customRequest(info: UploadRequestOption) {
  * @param res 上传响应结果
  * @param file 上传的文件
  */
-function handleUploadSuccess(res: any, file: File) {
-  // 删除临时文件
-  const index = fileList.value?.findIndex((item) => item.name === file.name);
-  if (index !== -1) {
-    fileList.value?.splice(index!, 1);
+function handleUploadSuccess(res: any, file: UploadFile) {
+  // 在上传组件创建的原文件项上更新结果，保留用户选择时的顺序
+  const uploadedFile = fileList.value?.find((item) => item.uid === file.uid);
+  if (!uploadedFile) {
+    return;
   }
-
-  // 添加到临时上传列表
   const fileUrl = res?.url || res?.data || res;
-  uploadList.value.push({
-    name: file.name,
-    url: fileUrl,
-    status: UploadResultStatus.DONE,
-    uid: file.name + Date.now(),
-  });
+  uploadedFile.url = fileUrl;
+  uploadedFile.status = UploadResultStatus.DONE;
 
-  // 检查是否所有文件都上传完成
-  if (uploadList.value.length >= uploadNumber.value) {
-    fileList.value?.push(...uploadList.value);
-    uploadList.value = [];
-    uploadNumber.value = 0;
-
-    // 更新值
-    const value = getValue();
-    isInnerOperate.value = true;
-    emit('update:value', value);
-    emit('update:modelValue', value);
-    emit('change', value);
-  }
+  // 更新值
+  const value = getValue();
+  isInnerOperate.value = true;
+  emit('update:value', value);
+  emit('update:modelValue', value);
+  emit('change', value);
 }
 
 /** 处理上传错误 */
 function handleUploadError(error: any) {
   console.error('上传错误:', error);
   message.error($t('ui.upload.uploadError'));
-  // 上传失败时减少计数器
-  uploadNumber.value = Math.max(0, uploadNumber.value - 1);
 }
 
 /**

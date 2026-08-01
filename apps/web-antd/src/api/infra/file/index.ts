@@ -28,6 +28,7 @@ export namespace InfraFileApi {
 
   /** 上传文件 */
   export interface FileUploadReqVO {
+    checkDuplicate?: boolean;
     file: globalThis.File;
     directory?: string;
   }
@@ -70,9 +71,10 @@ export function uploadFile(
   data: InfraFileApi.FileUploadReqVO,
   onUploadProgress?: AxiosProgressEvent,
 ) {
-  // 特殊：由于 upload 内部封装，即使 directory 为 undefined，也会传递给后端
-  if (!data.directory) {
-    delete data.directory;
-  }
-  return requestClient.upload('/infra/file/upload', data, { onUploadProgress });
+  const { checkDuplicate = false, directory, file } = data;
+  return requestClient.upload(
+    '/infra/file/upload',
+    { checkDuplicate, ...(directory ? { directory } : {}), file },
+    { onUploadProgress },
+  );
 }

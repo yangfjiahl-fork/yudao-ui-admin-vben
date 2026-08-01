@@ -312,6 +312,7 @@ defineExpose({
         <template #default="{ row }">
           <ImageUpload
             v-model:value="row.picUrl"
+            :check-duplicate="true"
             :max-number="1"
             :max-size="2"
             :show-description="false"

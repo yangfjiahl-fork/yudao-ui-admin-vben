@@ -223,7 +223,7 @@ async function handleSubmit() {
   // 提交数据
   await (spuId.value ? updateSpu(values) : createSpu(values));
   message.success($t('ui.actionMessage.operationSuccess'));
-  closeCurrentTab();
+  await closeCurrentTab();
 }
 
 /** 获得详情 */

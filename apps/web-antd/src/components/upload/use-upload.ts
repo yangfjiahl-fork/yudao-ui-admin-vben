@@ -89,9 +89,10 @@ export function useUploadType({
 /**
  * 上传钩子函数
  * @param directory 上传目录
+ * @param checkDuplicate 是否检查文件重名
  * @returns 上传 URL 和自定义上传方法
  */
-export function useUpload(directory?: string) {
+export function useUpload(directory?: string, checkDuplicate = false) {
   // 后端上传地址
   const uploadUrl = getUploadUrl();
   // 是否使用前端直连上传
@@ -123,7 +124,7 @@ export function useUpload(directory?: string) {
         });
     } else {
       // 模式二：后端上传
-      return uploadFile({ file, directory }, onUploadProgress);
+      return uploadFile({ checkDuplicate, directory, file }, onUploadProgress);
     }
   }
 

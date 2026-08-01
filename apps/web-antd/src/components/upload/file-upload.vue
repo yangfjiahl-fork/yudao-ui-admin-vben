@@ -22,6 +22,7 @@ defineOptions({ name: 'FileUpload', inheritAttrs: false });
 const props = withDefaults(defineProps<FileUploadProps>(), {
   value: () => [],
   modelValue: undefined,
+  checkDuplicate: false,
   directory: undefined,
   disabled: false,
   drag: false,
@@ -186,7 +187,7 @@ async function beforeUpload(file: File) {
 async function customRequest(info: UploadRequestOption) {
   let { api } = props;
   if (!api || !isFunction(api)) {
-    api = useUpload(props.directory).httpRequest;
+    api = useUpload(props.directory, props.checkDuplicate).httpRequest;
   }
   try {
     // 上传文件

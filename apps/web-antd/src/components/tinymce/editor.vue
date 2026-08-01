@@ -40,6 +40,7 @@ const props = withDefaults(defineProps<TinymacProps>(), {
   plugins: defaultPlugins,
   toolbar: defaultToolbar,
   showImageUpload: true,
+  checkDuplicate: false,
 });
 
 const emit = defineEmits(['change']);
@@ -51,6 +52,7 @@ interface TinymacProps {
   height?: number | string;
   width?: number | string;
   showImageUpload?: boolean;
+  checkDuplicate?: boolean;
 }
 
 /** 外部使用 v-model 绑定值 */
@@ -141,7 +143,7 @@ const initOptions = computed((): InitOptions => {
     images_upload_handler: (blobInfo: any) => {
       return new Promise((resolve, reject) => {
         const file = blobInfo.blob() as File;
-        const { httpRequest } = useUpload();
+        const { httpRequest } = useUpload(undefined, props.checkDuplicate);
         httpRequest(file)
           .then((url) => {
             resolve(url);
@@ -262,38 +264,38 @@ function bindModelHandlers(editor: any) {
   });
 }
 
-function getUploadingImgName(name: string) {
-  return `[uploading:${name}]`;
+function getUploadingImgName(batchId: string) {
+  return `[uploading:${batchId}]`;
 }
 
-function handleImageUploading(name: string) {
+function handleImageUploading(batchId: string) {
   const editor = unref(editorRef);
   if (!editor) {
     return;
   }
-  editor.execCommand('mceInsertContent', false, getUploadingImgName(name));
+  editor.execCommand('mceInsertContent', false, getUploadingImgName(batchId));
   const content = editor?.getContent() ?? '';
   setValue(editor, content);
 }
 
-function handleDone(name: string, url: string) {
+function handleDone(batchId: string, urls: string[]) {
   const editor = unref(editorRef);
   if (!editor) {
     return;
   }
   const content = editor?.getContent() ?? '';
-  const val =
-    content?.replace(getUploadingImgName(name), `<img src="${url}"/>`) ?? '';
+  const images = urls.map((url) => `<img src="${url}"/><br/>`).join('');
+  const val = content?.replace(getUploadingImgName(batchId), images) ?? '';
   setValue(editor, val);
 }
 
-function handleError(name: string) {
+function handleError(batchId: string) {
   const editor = unref(editorRef);
   if (!editor) {
     return;
   }
   const content = editor?.getContent() ?? '';
-  const val = content?.replace(getUploadingImgName(name), '') ?? '';
+  const val = content?.replace(getUploadingImgName(batchId), '') ?? '';
   setValue(editor, val);
 }
 </script>
@@ -304,6 +306,7 @@ function handleError(name: string) {
       v-if="showImageUpload"
       v-show="editorRef"
       :disabled="disabled"
+      :check-duplicate="checkDuplicate"
       :fullscreen="fullscreen"
       @done="handleDone"
       @error="handleError"

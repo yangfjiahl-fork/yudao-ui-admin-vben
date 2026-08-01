@@ -83,6 +83,7 @@ export function useInfoFormSchema(): VbenFormSchema[] {
       label: '商品封面图',
       component: 'ImageUpload',
       componentProps: {
+        checkDuplicate: true,
         maxSize: 30,
       },
       rules: 'required',
@@ -92,6 +93,7 @@ export function useInfoFormSchema(): VbenFormSchema[] {
       label: '商品轮播图',
       component: 'ImageUpload',
       componentProps: {
+        checkDuplicate: true,
         maxNumber: 10,
         multiple: true,
         maxSize: 30,
@@ -257,6 +259,7 @@ export function useDescriptionFormSchema(): VbenFormSchema[] {
       label: '商品详情',
       component: 'RichTextarea',
       componentProps: {
+        checkDuplicate: true,
         placeholder: '请输入商品详情',
         height: 1000,
       },

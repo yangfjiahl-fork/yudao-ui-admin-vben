@@ -17,6 +17,7 @@ export interface FileUploadProps {
     file: File,
     onUploadProgress?: AxiosProgressEvent,
   ) => Promise<AxiosResponse>;
+  checkDuplicate?: boolean; // 是否检查同名文件，避免覆盖
   directory?: string; // 上传的目录
   disabled?: boolean;
   drag?: boolean; // 是否支持拖拽上传
