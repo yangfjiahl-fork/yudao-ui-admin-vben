@@ -45,6 +45,7 @@ import LoginForm from '#/views/_core/authentication/login.vue';
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const accessStore = useAccessStore();
+const appVersion = import.meta.env.VITE_APP_VERSION;
 const { hasAccessByCodes } = useAccess();
 const { destroyWatermark, updateWatermark } = useWatermark();
 const { closeOtherTabs, refreshTab } = useTabs();
@@ -276,6 +277,17 @@ watch(
 
 <template>
   <BasicLayout @clear-preferences-and-logout="handleLogout">
+    <template #logo-text>
+      <span class="text-foreground truncate font-semibold text-nowrap">
+        {{ preferences.app.name }}
+      </span>
+      <span
+        v-if="appVersion"
+        class="text-muted-foreground text-xs font-normal text-nowrap"
+      >
+        v{{ appVersion }}
+      </span>
+    </template>
     <template #user-dropdown>
       <UserDropdown
         :avatar
