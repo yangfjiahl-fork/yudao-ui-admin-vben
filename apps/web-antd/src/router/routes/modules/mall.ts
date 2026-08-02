@@ -1,5 +1,18 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import { defineAsyncComponent, defineComponent, h } from 'vue';
+
+const ProductSpuForm = defineAsyncComponent(
+  () => import('#/views/mall/product/spu/form/index.vue'),
+);
+
+function createProductSpuFormRoute(name: string) {
+  return defineComponent({
+    name,
+    setup: () => () => h(ProductSpuForm),
+  });
+}
+
 const routes: RouteRecordRaw[] = [
   {
     path: '/mall/product',
@@ -17,8 +30,9 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '商品添加',
           activePath: '/mall/product/spu',
+          keepAlive: true,
         },
-        component: () => import('#/views/mall/product/spu/form/index.vue'),
+        component: createProductSpuFormRoute('ProductSpuAdd'),
       },
       {
         path: String.raw`spu/edit/:id(\d+)`,
@@ -26,8 +40,9 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '商品编辑',
           activePath: '/mall/product/spu',
+          keepAlive: true,
         },
-        component: () => import('#/views/mall/product/spu/form/index.vue'),
+        component: createProductSpuFormRoute('ProductSpuEdit'),
       },
       {
         path: String.raw`spu/detail/:id(\d+)`,
@@ -35,8 +50,9 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '商品详情',
           activePath: '/mall/product/spu',
+          keepAlive: true,
         },
-        component: () => import('#/views/mall/product/spu/form/index.vue'),
+        component: createProductSpuFormRoute('ProductSpuDetail'),
       },
     ],
   },
