@@ -342,9 +342,9 @@ onMounted(async () => {
   <div>
     <ProductPropertyAddFormModal :property-list="propertyList" />
 
-    <Page auto-content-height>
+    <Page>
       <Card
-        class="h-full w-full"
+        class="w-full"
         :loading="formLoading"
         :tab-list="[
           {

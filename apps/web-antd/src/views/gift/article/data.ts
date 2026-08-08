@@ -1,0 +1,248 @@
+import type { VbenFormSchema } from '#/adapter/form';
+import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { GiftArticleApi } from '#/api/gift/article';
+
+import { DICT_TYPE } from '@vben/constants';
+import { getDictOptions } from '@vben/hooks';
+
+/** 新增/修改的表单 */
+export function useFormSchema(): VbenFormSchema[] {
+  return [
+    {
+      fieldName: 'id',
+      component: 'Input',
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
+      },
+    },
+    {
+      fieldName: 'memberId',
+      component: 'Input',
+      defaultValue: 1,
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
+      },
+    },
+    {
+      fieldName: 'categoryId',
+      component: 'Input',
+      defaultValue: 1,
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
+      },
+    },
+    {
+      fieldName: 'title',
+      label: '标题',
+      rules: 'required',
+      component: 'Input',
+      componentProps: {
+        placeholder: '请输入标题',
+      },
+    },
+    {
+      fieldName: 'summary',
+      label: '摘要',
+      rules: 'required',
+      component: 'Input',
+      componentProps: {
+        placeholder: '请输入摘要',
+      },
+    },
+    {
+      fieldName: 'coverImage',
+      label: '封面图',
+      rules: 'required',
+      component: 'ImageUpload',
+    },
+    {
+      fieldName: 'sliderPicUrls',
+      label: '轮播图',
+      component: 'ImageUpload',
+      componentProps: {
+        maxNumber: 9,
+        multiple: true,
+      },
+      defaultValue: [],
+    },
+    {
+      fieldName: 'content',
+      label: '富文本正文',
+      rules: 'required',
+      component: 'RichTextarea',
+    },
+    {
+      fieldName: 'viewCount',
+      label: '浏览次数',
+      rules: 'required',
+      component: 'InputNumber',
+      defaultValue: Math.floor(Math.random() * 100),
+      componentProps: {
+        class: 'w-full',
+        min: 0,
+        placeholder: '请输入浏览次数',
+        precision: 0,
+      },
+    },
+    {
+      fieldName: 'likeCount',
+      label: '点赞次数',
+      rules: 'required',
+      component: 'InputNumber',
+      defaultValue: Math.floor(Math.random() * 100),
+      componentProps: {
+        class: 'w-full',
+        min: 0,
+        placeholder: '请输入点赞次数',
+        precision: 0,
+      },
+    },
+    {
+      fieldName: 'sort',
+      label: '排序值',
+      rules: 'required',
+      component: 'InputNumber',
+      defaultValue: 10,
+      componentProps: {
+        class: 'w-full',
+        min: 0,
+        placeholder: '请输入排序值',
+        precision: 0,
+      },
+    },
+    {
+      fieldName: 'status',
+      label: '状态',
+      rules: 'required',
+      component: 'Select',
+      componentProps: {
+        options: getDictOptions(DICT_TYPE.GIFT_ARTICLE_STATUS, 'number'),
+        placeholder: '请选择状态',
+      },
+    },
+    {
+      fieldName: 'publishTime',
+      label: '发布时间',
+      rules: 'required',
+      component: 'DatePicker',
+      defaultValue: new Date(),
+      componentProps: {
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
+        valueFormat: 'x',
+      },
+    },
+  ];
+}
+
+/** 列表的搜索表单 */
+export function useGridFormSchema(): VbenFormSchema[] {
+  return [
+    {
+      fieldName: 'categoryId',
+      label: '文章分类编号',
+      component: 'InputNumber',
+      componentProps: {
+        class: 'w-full',
+        min: 1,
+        placeholder: '请输入文章分类编号',
+      },
+    },
+    {
+      fieldName: 'status',
+      label: '状态',
+      component: 'Select',
+      componentProps: {
+        allowClear: true,
+        options: getDictOptions(DICT_TYPE.GIFT_ARTICLE_STATUS, 'number'),
+        placeholder: '请选择状态',
+      },
+    },
+  ];
+}
+
+/** 列表的字段 */
+export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['columns'] {
+  return [
+    { type: 'checkbox', width: 40 },
+    {
+      field: 'id',
+      title: '主键',
+      minWidth: 120,
+    },
+    {
+      field: 'memberId',
+      title: '会员编号',
+      minWidth: 120,
+    },
+    {
+      field: 'categoryId',
+      title: '分类编号',
+      minWidth: 120,
+    },
+    {
+      field: 'title',
+      title: '标题',
+      minWidth: 120,
+    },
+    {
+      field: 'summary',
+      title: '摘要',
+      minWidth: 120,
+    },
+    {
+      field: 'coverImage',
+      title: '封面图地址',
+      minWidth: 120,
+    },
+    {
+      field: 'sliderPicUrls',
+      title: '轮播图地址数组',
+      minWidth: 120,
+    },
+    // {
+    //   field: 'content',
+    //   title: '富文本正文',
+    //   minWidth: 120,
+    // },
+    {
+      field: 'viewCount',
+      title: '浏览次数',
+      minWidth: 120,
+    },
+    {
+      field: 'likeCount',
+      title: '点赞次数',
+      minWidth: 120,
+    },
+    {
+      field: 'sort',
+      title: '排序',
+      minWidth: 120,
+    },
+    {
+      field: 'status',
+      title: '状态',
+      minWidth: 120,
+      cellRender: {
+        name: 'CellDict',
+        props: { type: DICT_TYPE.GIFT_ARTICLE_STATUS },
+      },
+    },
+    {
+      field: 'publishTime',
+      title: '发布时间',
+      minWidth: 120,
+      formatter: 'formatDateTime',
+    },
+    {
+      title: '操作',
+      width: 200,
+      fixed: 'right',
+      slots: { default: 'actions' },
+    },
+  ];
+}

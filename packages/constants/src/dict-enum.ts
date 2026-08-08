@@ -284,6 +284,7 @@ const GIFT_DICT = {
   GIFT_WOOL_STATUS: 'gift_wool_status', // 羊毛收取状态
   GIFT_VIDEO_STATUS: 'gift_video_status', // 视频状态
   GIFT_VIDEO_QUALITY: 'gift_video_quality', // 视频清晰度
+  GIFT_ARTICLE_STATUS: 'gift_article_status', // 文章状态
 } as const;
 /** 字典类型枚举 - 统一导出 */
 const DICT_TYPE = {
