@@ -11,14 +11,18 @@ export namespace GiftArticleApi {
     memberId?: number; // 文章作者会员编号
     categoryId?: number; // 文章分类编号，发布时要求为末级分类
     title?: string; // 标题
+    author?: string; // 作者
     summary?: string; // 摘要
     coverImage?: string; // 封面图地址
+    coverWidth?: null | number; // 封面图显示宽度
+    coverHeight?: null | number; // 封面图显示高度
+    coverOrientation?: 'landscape' | 'portrait' | 'square' | null; // 封面图方向
     sliderPicUrls?: string[]; // 轮播图地址数组
     content?: string; // 站内富文本正文
     viewCount?: number; // 浏览次数
     likeCount?: number; // 点赞次数
     sort?: number; // 排序值，越大越靠前
-    status?: number; // 状态：0-草稿，1-已发布，2-已下架
+    status?: number; // 状态：1-草稿，3-已发布，5-已下线
     publishTime?: Dayjs | string; // 发布时间
   }
 }
@@ -46,6 +50,11 @@ export function createArticle(data: GiftArticleApi.Article) {
 /** 修改文章 */
 export function updateArticle(data: GiftArticleApi.Article) {
   return requestClient.put('/gift/article/update', data);
+}
+
+/** 修改文章状态 */
+export function changeArticleStatus(id: number, status: number) {
+  return requestClient.put('/gift/article/change-status', { id, status });
 }
 
 /** 删除文章 */

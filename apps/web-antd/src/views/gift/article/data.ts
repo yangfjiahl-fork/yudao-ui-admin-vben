@@ -6,7 +6,10 @@ import { DICT_TYPE } from '@vben/constants';
 import { getDictOptions } from '@vben/hooks';
 
 /** 新增/修改的表单 */
-export function useFormSchema(): VbenFormSchema[] {
+export function useFormSchema(options?: {
+  onCoverDelete?: () => void;
+  onCoverFileSelect?: (file: File) => void;
+}): VbenFormSchema[] {
   return [
     {
       fieldName: 'id',
@@ -44,6 +47,14 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
+      fieldName: 'author',
+      label: '作者',
+      component: 'Input',
+      componentProps: {
+        placeholder: '请输入作者',
+      },
+    },
+    {
       fieldName: 'summary',
       label: '摘要',
       rules: 'required',
@@ -57,6 +68,34 @@ export function useFormSchema(): VbenFormSchema[] {
       label: '封面图',
       rules: 'required',
       component: 'ImageUpload',
+      componentProps: {
+        onDelete: options?.onCoverDelete,
+        onFileSelect: options?.onCoverFileSelect,
+      },
+    },
+    {
+      fieldName: 'coverWidth',
+      component: 'Input',
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
+      },
+    },
+    {
+      fieldName: 'coverHeight',
+      component: 'Input',
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
+      },
+    },
+    {
+      fieldName: 'coverOrientation',
+      component: 'Input',
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
+      },
     },
     {
       fieldName: 'sliderPicUrls',
@@ -118,6 +157,7 @@ export function useFormSchema(): VbenFormSchema[] {
       label: '状态',
       rules: 'required',
       component: 'Select',
+      defaultValue: 1,
       componentProps: {
         options: getDictOptions(DICT_TYPE.GIFT_ARTICLE_STATUS, 'number'),
         placeholder: '请选择状态',
@@ -176,16 +216,21 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     {
       field: 'memberId',
       title: '会员编号',
-      minWidth: 120,
+      minWidth: 100,
     },
     {
       field: 'categoryId',
       title: '分类编号',
-      minWidth: 120,
+      minWidth: 100,
     },
     {
       field: 'title',
       title: '标题',
+      minWidth: 150,
+    },
+    {
+      field: 'author',
+      title: '作者',
       minWidth: 120,
     },
     {
@@ -195,14 +240,24 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     },
     {
       field: 'coverImage',
-      title: '封面图地址',
+      title: '封面图',
       minWidth: 120,
+      cellRender: {
+        name: 'CellImage',
+      },
     },
     {
-      field: 'sliderPicUrls',
-      title: '轮播图地址数组',
-      minWidth: 120,
+      field: 'coverOrientation',
+      title: '尺寸与方向',
+      minWidth: 220,
+      formatter: ({ row }) =>
+        `${row.coverWidth ?? '-'} x ${row.coverHeight ?? '-'} 方向: ${row.coverOrientation ?? '-'}`,
     },
+    // {
+    //   field: 'sliderPicUrls',
+    //   title: '轮播图地址数组',
+    //   minWidth: 120,
+    // },
     // {
     //   field: 'content',
     //   title: '富文本正文',
@@ -211,22 +266,22 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     {
       field: 'viewCount',
       title: '浏览次数',
-      minWidth: 120,
+      minWidth: 100,
     },
     {
       field: 'likeCount',
       title: '点赞次数',
-      minWidth: 120,
+      minWidth: 100,
     },
     {
       field: 'sort',
       title: '排序',
-      minWidth: 120,
+      minWidth: 80,
     },
     {
       field: 'status',
       title: '状态',
-      minWidth: 120,
+      minWidth: 80,
       cellRender: {
         name: 'CellDict',
         props: { type: DICT_TYPE.GIFT_ARTICLE_STATUS },
@@ -235,7 +290,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     {
       field: 'publishTime',
       title: '发布时间',
-      minWidth: 120,
+      minWidth: 150,
       formatter: 'formatDateTime',
     },
     {

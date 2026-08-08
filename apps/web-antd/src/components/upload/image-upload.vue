@@ -43,6 +43,7 @@ const props = withDefaults(defineProps<FileUploadProps>(), {
 });
 const emit = defineEmits([
   'change',
+  'fileSelect',
   'update:value',
   'update:modelValue',
   'delete',
@@ -191,6 +192,9 @@ async function beforeUpload(file: File) {
     setTimeout(() => (isLtMsg.value = true), 1000);
     return Upload.LIST_IGNORE;
   }
+
+  // 在上传开始前暴露已通过校验的原始文件，供业务方读取图片元数据。
+  emit('fileSelect', file);
 
   return true;
 }

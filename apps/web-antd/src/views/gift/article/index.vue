@@ -12,6 +12,7 @@ import { message } from 'ant-design-vue';
 
 import { ACTION_ICON, TableAction, useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
+  changeArticleStatus,
   deleteArticle,
   deleteArticleList,
   exportArticle,
@@ -22,6 +23,11 @@ import { $t } from '#/locales';
 import { useGridColumns, useGridFormSchema } from './data';
 
 const { push } = useRouter();
+
+const ArticleStatus = {
+  ONLINE: 3,
+  OFFLINE: 5,
+} as const;
 
 /** 刷新表格 */
 function handleRefresh() {
@@ -36,6 +42,13 @@ function handleCreate() {
 /** 编辑文章 */
 function handleEdit(row: GiftArticleApi.Article) {
   push({ name: 'GiftArticleEdit', params: { id: row.id } });
+}
+
+/** 修改文章状态 */
+async function handleChangeStatus(row: GiftArticleApi.Article, status: number) {
+  await changeArticleStatus(row.id!, status);
+  message.success($t('ui.actionMessage.operationSuccess'));
+  handleRefresh();
 }
 
 /** 删除文章 */
@@ -171,6 +184,34 @@ const [Grid, gridApi] = useVbenVxeGrid({
               popConfirm: {
                 title: $t('ui.actionMessage.deleteConfirm', [row.id]),
                 confirm: handleDelete.bind(null, row),
+              },
+            },
+          ]"
+          :drop-down-actions="[
+            {
+              label: '发布',
+              auth: ['gift:article:update'],
+              ifShow: () => row.status !== ArticleStatus.ONLINE,
+              popConfirm: {
+                title: '确认发布该文章？',
+                confirm: handleChangeStatus.bind(
+                  null,
+                  row,
+                  ArticleStatus.ONLINE,
+                ),
+              },
+            },
+            {
+              label: '下线',
+              auth: ['gift:article:update'],
+              ifShow: () => row.status === ArticleStatus.ONLINE,
+              popConfirm: {
+                title: '确认下线该文章？',
+                confirm: handleChangeStatus.bind(
+                  null,
+                  row,
+                  ArticleStatus.OFFLINE,
+                ),
               },
             },
           ]"
