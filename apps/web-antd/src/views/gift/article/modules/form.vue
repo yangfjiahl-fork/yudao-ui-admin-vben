@@ -154,14 +154,17 @@ async function handleSubmit() {
   if (!valid) {
     return;
   }
-  const data = (await formApi.getValues()) as GiftArticleApi.Article;
-  data.sliderPicUrls = normalizeSliderPicUrls(data.sliderPicUrls);
-  const publishTime = dayjs(data.publishTime);
-  if (!publishTime.isValid()) {
+  const formValues = (await formApi.getValues()) as GiftArticleApi.Article;
+  const publishTime = Number(formValues.publishTime);
+  if (!Number.isFinite(publishTime)) {
     message.error('发布时间格式不正确');
     return;
   }
-  data.publishTime = publishTime.format('YYYY-MM-DD HH:mm:ss');
+  const data: GiftArticleApi.ArticleSaveReq = {
+    ...formValues,
+    publishTime,
+    sliderPicUrls: normalizeSliderPicUrls(formValues.sliderPicUrls),
+  };
 
   submitLoading.value = true;
   try {
@@ -179,16 +182,14 @@ async function getDetail() {
   detailLoading.value = true;
   try {
     const data = await getArticle(articleId.value!);
-    data.sliderPicUrls = normalizeSliderPicUrls(data.sliderPicUrls);
-    if (data.publishTime) {
-      const publishTime = dayjs(data.publishTime);
-      data.publishTime = publishTime.isValid()
-        ? publishTime.valueOf().toString()
-        : undefined;
-    }
+    const publishTime = dayjs(data.publishTime);
     detailLoading.value = false;
     await nextTick();
-    await formApi.setValues(data);
+    await formApi.setValues({
+      ...data,
+      publishTime: publishTime.isValid() ? publishTime.valueOf() : undefined,
+      sliderPicUrls: normalizeSliderPicUrls(data.sliderPicUrls),
+    });
   } finally {
     detailLoading.value = false;
   }

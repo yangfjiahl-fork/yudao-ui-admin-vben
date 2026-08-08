@@ -1,5 +1,3 @@
-import type { Dayjs } from 'dayjs';
-
 import type { PageParam, PageResult } from '@vben/request';
 
 import { requestClient } from '#/api/request';
@@ -23,7 +21,12 @@ export namespace GiftArticleApi {
     likeCount?: number; // 点赞次数
     sort?: number; // 排序值，越大越靠前
     status?: number; // 状态：1-草稿，3-已发布，5-已下线
-    publishTime?: Dayjs | string; // 发布时间
+    publishTime?: string; // 发布时间，后端下发格式：YYYY-MM-DD HH:mm:ss
+  }
+
+  /** 保存文章请求 */
+  export interface ArticleSaveReq extends Omit<Article, 'publishTime'> {
+    publishTime?: number; // 发布时间，毫秒时间戳
   }
 }
 
@@ -43,12 +46,12 @@ export function getArticle(id: number) {
 }
 
 /** 新增文章 */
-export function createArticle(data: GiftArticleApi.Article) {
+export function createArticle(data: GiftArticleApi.ArticleSaveReq) {
   return requestClient.post('/gift/article/create', data);
 }
 
 /** 修改文章 */
-export function updateArticle(data: GiftArticleApi.Article) {
+export function updateArticle(data: GiftArticleApi.ArticleSaveReq) {
   return requestClient.put('/gift/article/update', data);
 }
 
