@@ -44,6 +44,11 @@ function handleEdit(row: GiftArticleApi.Article) {
   push({ name: 'GiftArticleEdit', params: { id: row.id } });
 }
 
+/** 查看文章详情 */
+function handleDetail(row: GiftArticleApi.Article) {
+  push({ name: 'GiftArticleDetail', params: { id: row.id } });
+}
+
 /** 修改文章状态 */
 async function handleChangeStatus(row: GiftArticleApi.Article, status: number) {
   await changeArticleStatus(row.id!, status);
@@ -174,6 +179,12 @@ const [Grid, gridApi] = useVbenVxeGrid({
               icon: ACTION_ICON.EDIT,
               auth: ['gift:article:update'],
               onClick: handleEdit.bind(null, row),
+            },
+            {
+              label: $t('common.detail'),
+              type: 'link',
+              icon: ACTION_ICON.VIEW,
+              onClick: handleDetail.bind(null, row),
             },
             {
               label: $t('common.delete'),

@@ -18,11 +18,12 @@ import { useFormSchema } from '../data';
 
 defineOptions({ name: 'GiftArticleForm' });
 
-const { params } = useRoute();
+const { params, name } = useRoute();
 const { closeCurrentTab, refreshTab } = useTabs();
 const articleId = ref<number>();
 const detailLoading = ref(false);
 const submitLoading = ref(false);
+const isDetail = name === 'GiftArticleDetail';
 let coverMetadataRequest = 0;
 
 type CoverOrientation = NonNullable<GiftArticleApi.Article['coverOrientation']>;
@@ -198,6 +199,9 @@ async function getDetail() {
 onMounted(async () => {
   articleId.value = params.id ? Number(params.id) : undefined;
   if (articleId.value) {
+    if (isDetail) {
+      formApi.setDisabled(true);
+    }
     await getDetail();
   }
 });
@@ -208,10 +212,17 @@ onMounted(async () => {
     <Card class="w-full" :loading="detailLoading">
       <Form class="mx-auto w-full xl:w-4/5" />
       <div class="mt-4 flex justify-center gap-2">
-        <Button type="primary" :loading="submitLoading" @click="handleSubmit">
+        <Button
+          v-if="!isDetail"
+          type="primary"
+          :loading="submitLoading"
+          @click="handleSubmit"
+        >
           保存
         </Button>
-        <Button @click="() => closeCurrentTab()">取消</Button>
+        <Button @click="() => closeCurrentTab()">
+          {{ isDetail ? '返回列表' : '取消' }}
+        </Button>
       </div>
     </Card>
   </Page>

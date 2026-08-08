@@ -43,6 +43,16 @@ const routes: RouteRecordRaw[] = [
         },
         component: createGiftArticleFormRoute('GiftArticleEdit'),
       },
+      {
+        path: String.raw`detail/:id(\d+)`,
+        name: 'GiftArticleDetail',
+        meta: {
+          title: '文章详情',
+          activePath: '/gift/article',
+          keepAlive: true,
+        },
+        component: createGiftArticleFormRoute('GiftArticleDetail'),
+      },
     ],
   },
 ];
