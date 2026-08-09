@@ -25,8 +25,8 @@ import { useGridColumns, useGridFormSchema } from './data';
 const { push } = useRouter();
 
 const ArticleStatus = {
-  ONLINE: 3,
-  OFFLINE: 5,
+  ONLINE: 5,
+  OFFLINE: 3,
 } as const;
 
 /** 刷新表格 */

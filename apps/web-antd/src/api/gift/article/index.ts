@@ -20,7 +20,7 @@ export namespace GiftArticleApi {
     viewCount?: number; // 浏览次数
     likeCount?: number; // 点赞次数
     sort?: number; // 排序值，越大越靠前
-    status?: number; // 状态：1-草稿，3-已发布，5-已下线
+    status?: number; // 状态：1-草稿，3-已下线，5-已发布
     publishTime?: string; // 发布时间，后端下发格式：YYYY-MM-DD HH:mm:ss
   }
 

@@ -255,7 +255,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     {
       field: 'coverOrientation',
       title: '尺寸与方向',
-      minWidth: 220,
+      minWidth: 120,
       formatter: ({ row }) => {
         const direction = row.coverOrientation
           ? COVER_ORIENTATION_LABEL_MAP[row.coverOrientation]
@@ -276,12 +276,12 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     {
       field: 'viewCount',
       title: '浏览次数',
-      minWidth: 100,
+      minWidth: 80,
     },
     {
       field: 'likeCount',
       title: '点赞次数',
-      minWidth: 100,
+      minWidth: 80,
     },
     {
       field: 'sort',
