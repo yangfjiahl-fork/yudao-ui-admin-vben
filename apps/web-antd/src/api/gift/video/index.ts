@@ -10,6 +10,7 @@ export namespace GiftVideoApi {
     status?: number; // 状态
     coverUrl?: string; // 封面图片
     playUrl?: string; // 视频地址
+    duration?: number; // 视频时长，单位：毫秒
   }
 }
 
