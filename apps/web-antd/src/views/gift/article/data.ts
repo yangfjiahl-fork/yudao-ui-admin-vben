@@ -5,6 +5,12 @@ import type { GiftArticleApi } from '#/api/gift/article';
 import { DICT_TYPE } from '@vben/constants';
 import { getDictOptions } from '@vben/hooks';
 
+const COVER_ORIENTATION_LABEL_MAP = {
+  landscape: '横屏',
+  portrait: '竖屏',
+  square: '方形',
+} as const;
+
 /** 新增/修改的表单 */
 export function useFormSchema(options?: {
   onCoverDelete?: () => void;
@@ -250,8 +256,12 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
       field: 'coverOrientation',
       title: '尺寸与方向',
       minWidth: 220,
-      formatter: ({ row }) =>
-        `${row.coverWidth ?? '-'} x ${row.coverHeight ?? '-'} 方向: ${row.coverOrientation ?? '-'}`,
+      formatter: ({ row }) => {
+        const direction = row.coverOrientation
+          ? COVER_ORIENTATION_LABEL_MAP[row.coverOrientation]
+          : '-';
+        return `${row.coverWidth ?? '-'} x ${row.coverHeight ?? '-'} 方向: ${direction}`;
+      },
     },
     // {
     //   field: 'sliderPicUrls',

@@ -97,7 +97,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftVideoApi.Video>['colum
     {
       field: 'status',
       title: '状态',
-      minWidth: 120,
+      minWidth: 80,
       cellRender: {
         name: 'CellDict',
         props: { type: DICT_TYPE.GIFT_VIDEO_STATUS },
@@ -135,7 +135,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftVideoApi.Video>['colum
     {
       field: 'duration',
       title: '视频时长',
-      minWidth: 120,
+      minWidth: 100,
       slots: {
         default: ({ row }) => {
           if (row.duration === undefined || row.duration === null) return '-';
@@ -147,24 +147,44 @@ export function useGridColumns(): VxeTableGridOptions<GiftVideoApi.Video>['colum
       },
     },
     {
-      field: 'width',
-      title: '视频宽度',
-      minWidth: 120,
-    },
-    {
-      field: 'height',
-      title: '视频高度',
-      minWidth: 120,
+      field: 'resolution',
+      title: '视频尺寸与方向',
+      minWidth: 180,
+      slots: {
+        default: ({ row }) => {
+          if (
+            row.width === undefined ||
+            row.width === null ||
+            row.height === undefined ||
+            row.height === null
+          ) {
+            return '-';
+          }
+          const direction =
+            row.width > row.height
+              ? '横屏'
+              : row.width < row.height
+                ? '竖屏'
+                : '方形';
+          return `${row.width} x ${row.height} 方向: ${direction}`;
+        },
+      },
     },
     {
       field: 'fileSize',
       title: '文件大小',
-      minWidth: 120,
+      minWidth: 100,
+      slots: {
+        default: ({ row }) => {
+          if (row.fileSize === undefined || row.fileSize === null) return '-';
+          return `${(row.fileSize / 1024 / 1024).toFixed(2)} MB`;
+        },
+      },
     },
     {
       field: 'quality',
       title: '清晰度',
-      minWidth: 120,
+      minWidth: 80,
       cellRender: {
         name: 'CellDict',
         props: { type: DICT_TYPE.GIFT_VIDEO_QUALITY },

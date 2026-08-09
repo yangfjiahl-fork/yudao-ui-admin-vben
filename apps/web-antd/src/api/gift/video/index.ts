@@ -11,6 +11,9 @@ export namespace GiftVideoApi {
     coverUrl?: string; // 封面图片
     playUrl?: string; // 视频地址
     duration?: number; // 视频时长，单位：毫秒
+    width?: number; // 视频宽度
+    height?: number; // 视频高度
+    fileSize?: number; // 文件大小，单位：字节
   }
 }
 
