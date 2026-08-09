@@ -6,9 +6,11 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { confirm, Page } from '@vben/common-ui';
+import { DICT_TYPE } from '@vben/constants';
+import { getDictOptions } from '@vben/hooks';
 import { downloadFileFromBlobPart, isEmpty } from '@vben/utils';
 
-import { message } from 'ant-design-vue';
+import { message, Modal, Select } from 'ant-design-vue';
 
 import { ACTION_ICON, TableAction, useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
@@ -50,10 +52,41 @@ function handleDetail(row: GiftArticleApi.Article) {
 }
 
 /** 修改文章状态 */
-async function handleChangeStatus(row: GiftArticleApi.Article, status: number) {
-  await changeArticleStatus(row.id!, status);
+async function handleChangeStatus(ids: number[], status: number) {
+  await changeArticleStatus(ids, status);
   message.success($t('ui.actionMessage.operationSuccess'));
   handleRefresh();
+}
+
+const batchStatusModalOpen = ref(false);
+const batchStatusLoading = ref(false);
+const batchStatus = ref<number>();
+const articleStatusOptions = getDictOptions(
+  DICT_TYPE.GIFT_ARTICLE_STATUS,
+  'number',
+);
+
+/** 打开批量更新状态弹窗 */
+function handleOpenBatchStatusModal() {
+  batchStatus.value = undefined;
+  batchStatusModalOpen.value = true;
+}
+
+/** 批量更新文章状态 */
+async function handleBatchChangeStatus() {
+  if (batchStatus.value === undefined) {
+    message.warning('请选择状态');
+    return;
+  }
+
+  batchStatusLoading.value = true;
+  try {
+    await handleChangeStatus(checkedIds.value, batchStatus.value);
+    checkedIds.value = [];
+    batchStatusModalOpen.value = false;
+  } finally {
+    batchStatusLoading.value = false;
+  }
 }
 
 /** 删除文章 */
@@ -159,6 +192,14 @@ const [Grid, gridApi] = useVbenVxeGrid({
               onClick: handleExport,
             },
             {
+              label: '批量更新',
+              type: 'primary',
+              icon: ACTION_ICON.EDIT,
+              auth: ['gift:article:update'],
+              disabled: isEmpty(checkedIds),
+              onClick: handleOpenBatchStatusModal,
+            },
+            {
               label: $t('ui.actionTitle.deleteBatch'),
               type: 'primary',
               danger: true,
@@ -207,7 +248,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
                 title: '确认发布该文章？',
                 confirm: handleChangeStatus.bind(
                   null,
-                  row,
+                  [row.id!],
                   ArticleStatus.ONLINE,
                 ),
               },
@@ -220,7 +261,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
                 title: '确认下线该文章？',
                 confirm: handleChangeStatus.bind(
                   null,
-                  row,
+                  [row.id!],
                   ArticleStatus.OFFLINE,
                 ),
               },
@@ -229,5 +270,22 @@ const [Grid, gridApi] = useVbenVxeGrid({
         />
       </template>
     </Grid>
+
+    <Modal
+      v-model:open="batchStatusModalOpen"
+      title="批量更新状态"
+      :confirm-loading="batchStatusLoading"
+      @ok="handleBatchChangeStatus"
+    >
+      <div class="flex items-center gap-3">
+        <span>状态</span>
+        <Select
+          v-model:value="batchStatus"
+          class="w-60"
+          :options="articleStatusOptions"
+          placeholder="请选择状态"
+        />
+      </div>
+    </Modal>
   </Page>
 </template>

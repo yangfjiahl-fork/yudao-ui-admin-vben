@@ -56,8 +56,8 @@ export function updateArticle(data: GiftArticleApi.ArticleSaveReq) {
 }
 
 /** 修改文章状态 */
-export function changeArticleStatus(id: number, status: number) {
-  return requestClient.put('/gift/article/change-status', { id, status });
+export function changeArticleStatus(ids: number[], status: number) {
+  return requestClient.put('/gift/article/change-status', { ids, status });
 }
 
 /** 删除文章 */
