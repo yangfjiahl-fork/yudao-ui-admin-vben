@@ -149,7 +149,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftVideoApi.Video>['colum
     {
       field: 'resolution',
       title: '视频尺寸与方向',
-      minWidth: 180,
+      minWidth: 160,
       slots: {
         default: ({ row }) => {
           if (

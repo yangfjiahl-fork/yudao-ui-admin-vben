@@ -255,7 +255,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     {
       field: 'coverOrientation',
       title: '尺寸与方向',
-      minWidth: 120,
+      minWidth: 160,
       formatter: ({ row }) => {
         const direction = row.coverOrientation
           ? COVER_ORIENTATION_LABEL_MAP[row.coverOrientation]
