@@ -61,6 +61,14 @@ export function useFormSchema(options?: {
       },
     },
     {
+      fieldName: 'officialName',
+      label: '官方名称',
+      component: 'Input',
+      componentProps: {
+        placeholder: '请输入官方名称',
+      },
+    },
+    {
       fieldName: 'summary',
       label: '摘要',
       rules: 'required',
@@ -237,6 +245,11 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
     {
       field: 'author',
       title: '作者',
+      minWidth: 120,
+    },
+    {
+      field: 'officialName',
+      title: '官方名称',
       minWidth: 120,
     },
     {

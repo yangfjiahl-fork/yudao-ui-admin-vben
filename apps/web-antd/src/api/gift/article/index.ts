@@ -10,6 +10,7 @@ export namespace GiftArticleApi {
     categoryId?: number; // 文章分类编号，发布时要求为末级分类
     title?: string; // 标题
     author?: string; // 作者
+    officialName?: string; // 官方名称
     summary?: string; // 摘要
     coverImage?: string; // 封面图地址
     coverWidth?: null | number; // 封面图显示宽度
