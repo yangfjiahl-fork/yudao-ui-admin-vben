@@ -3,6 +3,7 @@ import { requestClient } from '#/api/request';
 export namespace GiftArticleCategoryApi {
   /** 文章分类信息 */
   export interface ArticleCategory {
+    id: number;
     parentId: number; // 父分类编号，0 表示一级分类
     name?: string; // 分类名称
     picUrl?: string; // 分类图片地址

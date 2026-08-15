@@ -102,7 +102,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
       parentField: 'parentId',
       rowField: 'id',
       transform: true,
-      expandAll: true,
       reserve: true,
     },
   } as VxeTableGridOptions<GiftArticleCategoryApi.ArticleCategory>,
