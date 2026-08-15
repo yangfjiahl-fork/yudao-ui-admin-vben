@@ -29,6 +29,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       fieldName: 'categoryId',
       label: '商品分类',
       component: 'ApiTreeSelect',
+      help: '请尽量选择最末级的分类，规范层级，减少维护成本。',
       componentProps: {
         placeholder: '请选择商品分类',
         allowClear: true,

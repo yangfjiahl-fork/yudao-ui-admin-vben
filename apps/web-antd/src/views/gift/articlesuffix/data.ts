@@ -60,11 +60,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleSuffixApi.Artic
       title: '签名标题',
       minWidth: 120,
     },
-    {
-      field: 'content',
-      title: '签名内容',
-      minWidth: 120,
-    },
+
     {
       field: 'createTime',
       title: '创建时间',

@@ -8,6 +8,7 @@ export namespace GiftArticleApi {
     id?: number; // 主键
     memberId?: number; // 文章作者会员编号
     categoryId?: number; // 文章分类编号，发布时要求为末级分类
+    suffixId?: number; // 文章后缀编号
     title?: string; // 标题
     author?: string; // 作者
     officialName?: string; // 官方名称

@@ -7,6 +7,7 @@ import { getDictOptions } from '@vben/hooks';
 import { handleTree } from '@vben/utils';
 
 import { getArticleCategoryList } from '#/api/gift/articlecategory';
+import { getArticleSuffixPage } from '#/api/gift/articlesuffix';
 
 const COVER_ORIENTATION_LABEL_MAP = {
   landscape: '横屏',
@@ -49,6 +50,7 @@ export function useFormSchema(options?: {
     {
       fieldName: 'categoryId',
       label: '文章分类',
+      help: '请尽量选择最末级的分类，规范层级，减少维护成本。',
       component: 'ApiTreeSelect',
       componentProps: {
         api: async () => {
@@ -134,6 +136,26 @@ export function useFormSchema(options?: {
       label: '富文本正文',
       rules: 'required',
       component: 'RichTextarea',
+    },
+    {
+      fieldName: 'suffixId',
+      label: '文章后缀',
+      component: 'ApiSelect',
+      componentProps: {
+        allowClear: true,
+        api: async () => {
+          const data = await getArticleSuffixPage({
+            pageNo: 1,
+            pageSize: 100,
+          });
+          return data.list;
+        },
+        labelField: 'title',
+        placeholder: '请选择文章后缀',
+        showSearch: true,
+        valueField: 'id',
+      },
+      rules: 'required',
     },
     {
       fieldName: 'viewCount',
@@ -311,6 +333,11 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
       field: 'likeCount',
       title: '点赞次数',
       minWidth: 80,
+    },
+    {
+      field: 'suffixName',
+      title: '文章后缀',
+      minWidth: 120,
     },
     {
       field: 'sort',
