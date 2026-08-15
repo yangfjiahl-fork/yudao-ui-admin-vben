@@ -4,6 +4,9 @@ import type { GiftArticleApi } from '#/api/gift/article';
 
 import { DICT_TYPE } from '@vben/constants';
 import { getDictOptions } from '@vben/hooks';
+import { handleTree } from '@vben/utils';
+
+import { getArticleCategoryList } from '#/api/gift/articlecategory';
 
 const COVER_ORIENTATION_LABEL_MAP = {
   landscape: '横屏',
@@ -35,15 +38,6 @@ export function useFormSchema(options?: {
       },
     },
     {
-      fieldName: 'categoryId',
-      component: 'Input',
-      defaultValue: 1,
-      dependencies: {
-        triggerFields: [''],
-        show: () => false,
-      },
-    },
-    {
       fieldName: 'title',
       label: '标题',
       rules: 'required',
@@ -51,6 +45,20 @@ export function useFormSchema(options?: {
       componentProps: {
         placeholder: '请输入标题',
       },
+    },
+    {
+      fieldName: 'categoryId',
+      label: '文章分类',
+      component: 'ApiTreeSelect',
+      componentProps: {
+        api: async () => {
+          const data = await getArticleCategoryList({});
+          return handleTree(data);
+        },
+        fieldNames: { label: 'name', value: 'id', children: 'children' },
+        placeholder: '请选择文章分类',
+      },
+      rules: 'required',
     },
     {
       fieldName: 'author',
@@ -196,13 +204,26 @@ export function useFormSchema(options?: {
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
-      fieldName: 'categoryId',
-      label: '文章分类编号',
-      component: 'InputNumber',
+      fieldName: 'title',
+      label: '文章标题',
+      component: 'Input',
       componentProps: {
-        class: 'w-full',
-        min: 1,
-        placeholder: '请输入文章分类编号',
+        allowClear: true,
+        placeholder: '请输入文章标题',
+      },
+    },
+    {
+      fieldName: 'categoryId',
+      label: '文章分类',
+      component: 'ApiTreeSelect',
+      componentProps: {
+        allowClear: true,
+        api: async () => {
+          const data = await getArticleCategoryList({});
+          return handleTree(data);
+        },
+        fieldNames: { label: 'name', value: 'id', children: 'children' },
+        placeholder: '请选择文章分类',
       },
     },
     {
@@ -228,8 +249,8 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
       minWidth: 100,
     },
     {
-      field: 'categoryId',
-      title: '分类编号',
+      field: 'categoryName',
+      title: '文章分类',
       minWidth: 100,
     },
     {
