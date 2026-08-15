@@ -223,11 +223,6 @@ export function useGridColumns(): VxeTableGridOptions<GiftArticleApi.Article>['c
   return [
     { type: 'checkbox', width: 40 },
     {
-      field: 'id',
-      title: '主键',
-      minWidth: 120,
-    },
-    {
       field: 'memberId',
       title: '会员编号',
       minWidth: 100,
