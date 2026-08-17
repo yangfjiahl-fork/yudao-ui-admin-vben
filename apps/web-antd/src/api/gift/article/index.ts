@@ -3,6 +3,12 @@ import type { PageParam, PageResult } from '@vben/request';
 import { requestClient } from '#/api/request';
 
 export namespace GiftArticleApi {
+  /** 图片尺寸 */
+  export interface ImageSize {
+    h: number;
+    w: number;
+  }
+
   /** 文章信息 */
   export interface Article {
     id?: number; // 主键
@@ -18,6 +24,7 @@ export namespace GiftArticleApi {
     coverHeight?: null | number; // 封面图显示高度
     coverOrientation?: 'landscape' | 'portrait' | 'square' | null; // 封面图方向
     sliderPicUrls?: string[]; // 轮播图地址数组
+    sliderPicSize?: ImageSize[]; // 轮播图尺寸数组
     content?: string; // 站内富文本正文
     viewCount?: number; // 浏览次数
     likeCount?: number; // 点赞次数

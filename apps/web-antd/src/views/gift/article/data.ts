@@ -1,3 +1,5 @@
+import type { UploadFile } from 'ant-design-vue';
+
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftArticleApi } from '#/api/gift/article';
@@ -19,6 +21,8 @@ const COVER_ORIENTATION_LABEL_MAP = {
 export function useFormSchema(options?: {
   onCoverDelete?: () => void;
   onCoverFileSelect?: (file: File) => void;
+  onSliderPicDelete?: (file: UploadFile) => void;
+  onSliderPicFileSelect?: (file: File) => void;
 }): VbenFormSchema[] {
   return [
     {
@@ -128,8 +132,19 @@ export function useFormSchema(options?: {
       componentProps: {
         maxNumber: 9,
         multiple: true,
+        onDelete: options?.onSliderPicDelete,
+        onFileSelect: options?.onSliderPicFileSelect,
       },
       defaultValue: [],
+    },
+    {
+      fieldName: 'sliderPicSize',
+      component: 'Input',
+      defaultValue: [],
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
+      },
     },
     {
       fieldName: 'content',

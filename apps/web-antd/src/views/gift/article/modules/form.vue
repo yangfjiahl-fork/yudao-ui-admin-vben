@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { UploadFile } from 'ant-design-vue';
+
 import type { GiftArticleApi } from '#/api/gift/article';
 
 import { nextTick, onMounted, ref } from 'vue';
@@ -25,6 +27,11 @@ const detailLoading = ref(false);
 const submitLoading = ref(false);
 const isDetail = name === 'GiftArticleDetail';
 let coverMetadataRequest = 0;
+let pendingCoverSliderPicSize: PendingSliderPicSize | undefined;
+let sliderPicUrls: string[] = [];
+let sliderPicSizeStates: SliderPicSizeState[] = [];
+const pendingSliderPicSizes: PendingSliderPicSize[] = [];
+const sliderPicSizeRequests = new Set<Promise<void>>();
 
 type CoverOrientation = NonNullable<GiftArticleApi.Article['coverOrientation']>;
 
@@ -33,6 +40,16 @@ interface CoverMetadata {
   coverOrientation: CoverOrientation;
   coverWidth: number;
 }
+
+interface PendingSliderPicSize {
+  file: File;
+  size?: GiftArticleApi.ImageSize;
+}
+
+type SliderPicSizeState =
+  | GiftArticleApi.ImageSize
+  | null
+  | PendingSliderPicSize;
 
 function getCoverMetadata(width: number, height: number): CoverMetadata | null {
   if (!width || !height) {
@@ -44,6 +61,83 @@ function getCoverMetadata(width: number, height: number): CoverMetadata | null {
     coverOrientation:
       width === height ? 'square' : width > height ? 'landscape' : 'portrait',
   };
+}
+
+function getImageSize(
+  metadata: CoverMetadata | null,
+): GiftArticleApi.ImageSize | undefined {
+  if (!metadata) {
+    return undefined;
+  }
+  return {
+    h: metadata.coverHeight,
+    w: metadata.coverWidth,
+  };
+}
+
+function normalizeSliderPicSize(
+  value: unknown,
+): GiftArticleApi.ImageSize | null {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
+  const { h, w } = value as Record<string, unknown>;
+  const normalizedHeight = Number(h);
+  const normalizedWidth = Number(w);
+  if (
+    !Number.isFinite(normalizedHeight) ||
+    !Number.isFinite(normalizedWidth) ||
+    normalizedHeight <= 0 ||
+    normalizedWidth <= 0
+  ) {
+    return null;
+  }
+  return { h: normalizedHeight, w: normalizedWidth };
+}
+
+function getResolvedSliderPicSize(
+  state: SliderPicSizeState,
+): GiftArticleApi.ImageSize | null {
+  if (!state) {
+    return null;
+  }
+  return 'file' in state ? (state.size ?? null) : state;
+}
+
+function getSliderPicSizes(): Array<GiftArticleApi.ImageSize | null> {
+  return sliderPicSizeStates.map((state) => getResolvedSliderPicSize(state));
+}
+
+async function syncSliderPicSizeField() {
+  await formApi.setFieldValue('sliderPicSize', getSliderPicSizes());
+}
+
+function syncSliderPicSizeStates(value: unknown) {
+  const nextUrls = normalizeSliderPicUrls(value);
+  const usedPreviousIndexes = new Set<number>();
+  const nextStates = nextUrls.map((url) => {
+    const previousIndex = sliderPicUrls.findIndex(
+      (previousUrl, index) =>
+        previousUrl === url && !usedPreviousIndexes.has(index),
+    );
+    if (previousIndex !== -1) {
+      usedPreviousIndexes.add(previousIndex);
+      return sliderPicSizeStates[previousIndex] ?? null;
+    }
+    return pendingSliderPicSizes.shift() ?? null;
+  });
+
+  sliderPicUrls = nextUrls;
+  sliderPicSizeStates = nextStates;
+}
+
+function initializeSliderPicSizeStates(urls: string[], value: unknown) {
+  const sizes = Array.isArray(value) ? value : [];
+  pendingSliderPicSizes.length = 0;
+  sliderPicUrls = urls;
+  sliderPicSizeStates = urls.map((_, index) =>
+    normalizeSliderPicSize(sizes[index]),
+  );
 }
 
 /**
@@ -83,6 +177,7 @@ async function readCoverMetadata(file: File): Promise<CoverMetadata | null> {
 
 async function clearCoverMetadata() {
   coverMetadataRequest++;
+  pendingCoverSliderPicSize = undefined;
   await formApi.setValues({
     coverHeight: null,
     coverOrientation: null,
@@ -92,10 +187,13 @@ async function clearCoverMetadata() {
 
 async function handleCoverFileSelect(file: File) {
   const request = ++coverMetadataRequest;
+  const pendingSize: PendingSliderPicSize = { file };
+  pendingCoverSliderPicSize = pendingSize;
   const metadata = await readCoverMetadata(file);
   if (request !== coverMetadataRequest) {
     return;
   }
+  pendingSize.size = getImageSize(metadata);
   await formApi.setValues(
     metadata ?? {
       coverHeight: null,
@@ -103,6 +201,26 @@ async function handleCoverFileSelect(file: File) {
       coverWidth: null,
     },
   );
+}
+
+function handleSliderPicFileSelect(file: File) {
+  const pendingSize: PendingSliderPicSize = { file };
+  pendingSliderPicSizes.push(pendingSize);
+  const request = (async () => {
+    pendingSize.size = getImageSize(await readCoverMetadata(file));
+    await syncSliderPicSizeField();
+  })();
+  sliderPicSizeRequests.add(request);
+  void request.finally(() => sliderPicSizeRequests.delete(request));
+}
+
+function handleSliderPicDelete(file: UploadFile) {
+  const index = pendingSliderPicSizes.findIndex(
+    (pendingSize) => pendingSize.file === file.originFileObj,
+  );
+  if (index !== -1) {
+    pendingSliderPicSizes.splice(index, 1);
+  }
 }
 
 /** 将轮播图值统一转换为后端需要的 URL 数组 */
@@ -136,14 +254,24 @@ const [Form, formApi] = useVbenForm({
   schema: useFormSchema({
     onCoverDelete: clearCoverMetadata,
     onCoverFileSelect: handleCoverFileSelect,
+    onSliderPicDelete: handleSliderPicDelete,
+    onSliderPicFileSelect: handleSliderPicFileSelect,
   }),
   showDefaultActions: false,
   handleValuesChange: async (values, fieldsChanged) => {
+    if (fieldsChanged.includes('sliderPicUrls')) {
+      syncSliderPicSizeStates(values.sliderPicUrls);
+      await syncSliderPicSizeField();
+    }
     if (
       fieldsChanged.includes('coverImage') &&
       values.coverImage &&
       (!values.sliderPicUrls || values.sliderPicUrls.length === 0)
     ) {
+      if (pendingCoverSliderPicSize) {
+        pendingSliderPicSizes.push(pendingCoverSliderPicSize);
+        pendingCoverSliderPicSize = undefined;
+      }
       await formApi.setFieldValue('sliderPicUrls', [values.coverImage]);
     }
   },
@@ -155,7 +283,20 @@ async function handleSubmit() {
   if (!valid) {
     return;
   }
+  await Promise.all(sliderPicSizeRequests);
   const formValues = (await formApi.getValues()) as GiftArticleApi.Article;
+  const normalizedSliderPicUrls = normalizeSliderPicUrls(
+    formValues.sliderPicUrls,
+  );
+  syncSliderPicSizeStates(normalizedSliderPicUrls);
+  const sliderPicSizes = getSliderPicSizes();
+  if (sliderPicSizes.some((size) => !size)) {
+    message.error('无法读取轮播图尺寸，请重新上传对应图片');
+    return;
+  }
+  const normalizedSliderPicSizes = sliderPicSizes.filter(
+    (size): size is GiftArticleApi.ImageSize => size !== null,
+  );
   const publishTime = Number(formValues.publishTime);
   if (!Number.isFinite(publishTime)) {
     message.error('发布时间格式不正确');
@@ -164,7 +305,8 @@ async function handleSubmit() {
   const data: GiftArticleApi.ArticleSaveReq = {
     ...formValues,
     publishTime,
-    sliderPicUrls: normalizeSliderPicUrls(formValues.sliderPicUrls),
+    sliderPicUrls: normalizedSliderPicUrls,
+    sliderPicSize: normalizedSliderPicSizes,
   };
 
   submitLoading.value = true;
@@ -184,12 +326,15 @@ async function getDetail() {
   try {
     const data = await getArticle(articleId.value!);
     const publishTime = dayjs(data.publishTime);
+    const sliderPicUrls = normalizeSliderPicUrls(data.sliderPicUrls);
+    initializeSliderPicSizeStates(sliderPicUrls, data.sliderPicSize);
     detailLoading.value = false;
     await nextTick();
     await formApi.setValues({
       ...data,
       publishTime: publishTime.isValid() ? publishTime.valueOf() : undefined,
-      sliderPicUrls: normalizeSliderPicUrls(data.sliderPicUrls),
+      sliderPicUrls,
+      sliderPicSize: getSliderPicSizes(),
     });
   } finally {
     detailLoading.value = false;

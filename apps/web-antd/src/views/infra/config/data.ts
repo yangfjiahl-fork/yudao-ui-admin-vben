@@ -42,6 +42,10 @@ export function useFormSchema(): VbenFormSchema[] {
       componentProps: {
         placeholder: '请输入参数键名',
       },
+      dependencies: {
+        triggerFields: ['id'],
+        disabled: (values) => !!values.id,
+      },
       rules: 'required',
     },
     {
