@@ -9,6 +9,7 @@ export namespace AiModelChatRoleApi {
     name: string; // 角色名称
     avatar: string; // 角色头像
     category: string; // 角色类别
+    userType: number; // 用户类型
     sort: number; // 角色排序
     description: string; // 角色描述
     systemMessage: string; // 角色设定
@@ -23,6 +24,7 @@ export namespace AiModelChatRoleApi {
   export interface ChatRolePageReqVO {
     name?: string; // 角色名称
     category?: string; // 角色类别
+    userType?: number; // 用户类型
     publicStatus: boolean; // 是否公开
     pageNo: number; // 是否公开
     pageSize: number; // 是否公开

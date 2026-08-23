@@ -6,6 +6,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useVbenDrawer, useVbenModal } from '@vben/common-ui';
+import { UserTypeEnum } from '@vben/constants';
 import { IconifyIcon } from '@vben/icons';
 
 import {
@@ -117,7 +118,9 @@ async function handlerCategoryClick(category: string) {
 }
 
 async function handlerAddRole() {
-  formModalApi.setData({ formType: 'my-create' }).open();
+  formModalApi
+    .setData({ formType: 'my-create', userType: UserTypeEnum.ADMIN })
+    .open();
 }
 
 /** 编辑角色 */

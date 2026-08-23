@@ -77,6 +77,16 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
+      fieldName: 'userType',
+      label: '用户类型',
+      component: 'Select',
+      componentProps: {
+        options: getDictOptions(DICT_TYPE.USER_TYPE, 'number'),
+        placeholder: '请选择用户类型',
+      },
+      rules: 'required',
+    },
+    {
       component: 'Textarea',
       fieldName: 'description',
       label: '角色描述',
@@ -202,6 +212,16 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
+      fieldName: 'userType',
+      label: '用户类型',
+      component: 'Select',
+      componentProps: {
+        options: getDictOptions(DICT_TYPE.USER_TYPE, 'number'),
+        allowClear: true,
+        placeholder: '请选择用户类型',
+      },
+    },
+    {
       fieldName: 'publicStatus',
       label: '是否公开',
       component: 'Select',
@@ -210,7 +230,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
         options: getDictOptions(DICT_TYPE.INFRA_BOOLEAN_STRING, 'boolean'),
         allowClear: true,
       },
-      defaultValue: true,
     },
   ];
 }
@@ -244,6 +263,15 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       title: '角色类别',
       field: 'category',
       minWidth: 100,
+    },
+    {
+      field: 'userType',
+      title: '用户类型',
+      minWidth: 100,
+      cellRender: {
+        name: 'CellDict',
+        props: { type: DICT_TYPE.USER_TYPE },
+      },
     },
     {
       title: '角色描述',
