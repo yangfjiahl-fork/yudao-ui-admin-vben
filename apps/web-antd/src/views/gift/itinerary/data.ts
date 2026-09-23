@@ -2,6 +2,7 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftItineraryApi } from '#/api/gift/itinerary';
 
+import { getItineraryCategoryPage } from '#/api/gift/itinerarycategory';
 import { getRangePickerDefaultProps } from '#/utils';
 
 /** 新增/修改的表单 */
@@ -26,11 +27,21 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'categoryId',
-      label: '类别ID',
+      label: '行程类别',
       rules: 'required',
-      component: 'Input',
+      component: 'ApiSelect',
       componentProps: {
-        placeholder: '请输入类别ID',
+        api: async () => {
+          const data = await getItineraryCategoryPage({
+            pageNo: 1,
+            pageSize: 100,
+          });
+          return data.list;
+        },
+        labelField: 'title',
+        placeholder: '请选择行程类别',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
@@ -195,11 +206,21 @@ export function useGridFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'categoryId',
-      label: '类别ID',
-      component: 'Input',
+      label: '行程类别',
+      component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入类别ID',
+        api: async () => {
+          const data = await getItineraryCategoryPage({
+            pageNo: 1,
+            pageSize: 100,
+          });
+          return data.list;
+        },
+        labelField: 'title',
+        placeholder: '请选择行程类别',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
@@ -383,7 +404,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftItineraryApi.Itinerary
     },
     {
       field: 'categoryId',
-      title: '类别ID',
+      title: '行程类别ID',
       minWidth: 120,
     },
     {
