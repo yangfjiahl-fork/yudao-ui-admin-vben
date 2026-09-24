@@ -287,6 +287,7 @@ const GIFT_DICT = {
   GIFT_VIDEO_STATUS: 'gift_video_status', // 视频状态
   GIFT_VIDEO_QUALITY: 'gift_video_quality', // 视频清晰度
   GIFT_ARTICLE_STATUS: 'gift_article_status', // 文章状态
+  GIFT_USER_FEEDBACK_STATUS: 'gift_user_feedback_status', // 用户反馈处理状态
 } as const;
 /** 字典类型枚举 - 统一导出 */
 const DICT_TYPE = {
