@@ -19,11 +19,81 @@ import { useFormSchema } from '../data';
 
 const emit = defineEmits(['success']);
 const formData = ref<GiftSliderItemApi.SliderItem>();
+let imageSizeRequest = 0;
+let imageSizeTask: Promise<void> | undefined;
 const getTitle = computed(() => {
   return formData.value?.id
     ? $t('ui.actionTitle.edit', ['轮播图'])
     : $t('ui.actionTitle.create', ['轮播图']);
 });
+
+/** 读取上传图片的原始尺寸 */
+async function readImageSize(file: File) {
+  if (typeof createImageBitmap === 'function') {
+    try {
+      const bitmap = await createImageBitmap(file, {
+        imageOrientation: 'from-image',
+      });
+      try {
+        return { height: bitmap.height, width: bitmap.width };
+      } finally {
+        bitmap.close();
+      }
+    } catch {
+      // 部分格式或旧浏览器不支持 ImageBitmap，降级为浏览器图片解码。
+    }
+  }
+
+  const objectUrl = URL.createObjectURL(file);
+  return new Promise<{ height: number; width: number }>((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener('load', () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve({ height: image.naturalHeight, width: image.naturalWidth });
+    });
+    image.addEventListener('error', () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error('图片尺寸读取失败'));
+    });
+    image.src = objectUrl;
+  });
+}
+
+/** 上传图片后自动回填宽高 */
+function handleImageFileSelect(file: File) {
+  const request = ++imageSizeRequest;
+  imageSizeTask = (async () => {
+    try {
+      const size = await readImageSize(file);
+      if (request !== imageSizeRequest) {
+        return;
+      }
+      await formApi.setValues({
+        imageHeight: size.height,
+        imageWidth: size.width,
+      });
+    } catch {
+      if (request !== imageSizeRequest) {
+        return;
+      }
+      await formApi.setValues({
+        imageHeight: undefined,
+        imageWidth: undefined,
+      });
+      message.warning('图片尺寸读取失败，请重新上传图片');
+    }
+  })();
+}
+
+/** 删除图片时同步清空宽高 */
+async function handleImageDelete() {
+  imageSizeRequest++;
+  imageSizeTask = undefined;
+  await formApi.setValues({
+    imageHeight: undefined,
+    imageWidth: undefined,
+  });
+}
 
 const [Form, formApi] = useVbenForm({
   commonConfig: {
@@ -34,12 +104,16 @@ const [Form, formApi] = useVbenForm({
     labelWidth: 80,
   },
   layout: 'horizontal',
-  schema: useFormSchema(),
+  schema: useFormSchema({
+    onImageDelete: handleImageDelete,
+    onImageFileSelect: handleImageFileSelect,
+  }),
   showDefaultActions: false,
 });
 
 const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
+    await imageSizeTask;
     const { valid } = await formApi.validate();
     if (!valid) {
       return;
@@ -61,6 +135,8 @@ const [Modal, modalApi] = useVbenModal({
   },
   async onOpenChange(isOpen: boolean) {
     if (!isOpen) {
+      imageSizeRequest++;
+      imageSizeTask = undefined;
       formData.value = undefined;
       return;
     }

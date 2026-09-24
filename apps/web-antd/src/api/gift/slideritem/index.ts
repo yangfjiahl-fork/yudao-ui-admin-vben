@@ -5,14 +5,14 @@ import { requestClient } from '#/api/request';
 export namespace GiftSliderItemApi {
   /** 轮播图信息 */
   export interface SliderItem {
-    id: number; // 主键
-    sliderId?: number; // 轮播ID
-    imageUrl?: string; // 图片地址
-    imageWidth?: number; // 图片宽度
-    imageHeight?: number; // 图片高度
-    sort?: number; // 顺序
-    jumpPage?: string; // 跳转页面
-    jumpPageId?: number; // 跳转页面ID
+    id?: number; // 主键
+    sliderId: number; // 轮播ID
+    imageUrl: string; // 图片地址
+    imageWidth: number; // 图片宽度
+    imageHeight: number; // 图片高度
+    sort: number; // 顺序
+    jumpPage: string; // 跳转页面
+    jumpPageId: number; // 跳转页面ID
   }
 }
 

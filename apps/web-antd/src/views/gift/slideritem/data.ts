@@ -2,10 +2,31 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftSliderItemApi } from '#/api/gift/slideritem';
 
+import { DICT_TYPE } from '@vben/constants';
+import { getDictLabel, getDictOptions } from '@vben/hooks';
+
+import { getSliderPage } from '#/api/gift/slider';
 import { getRangePickerDefaultProps } from '#/utils';
 
+async function getSliderOptions() {
+  const data = await getSliderPage({ pageNo: 1, pageSize: 100 });
+  return data.list.map((slider) => {
+    const position =
+      getDictLabel(DICT_TYPE.GIFT_SLIDER_POSITION, slider.positionCode) ||
+      slider.positionCode;
+    const city = slider.cityId ? `城市 ${slider.cityId}` : '全部城市';
+    return {
+      ...slider,
+      label: `${position} / ${city}（ID: ${slider.id}）`,
+    };
+  });
+}
+
 /** 新增/修改的表单 */
-export function useFormSchema(): VbenFormSchema[] {
+export function useFormSchema(options?: {
+  onImageDelete?: () => void;
+  onImageFileSelect?: (file: File) => void;
+}): VbenFormSchema[] {
   return [
     {
       fieldName: 'id',
@@ -17,38 +38,48 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'sliderId',
-      label: '轮播ID',
+      label: '关联轮播',
       rules: 'required',
-      component: 'Input',
+      component: 'ApiSelect',
       componentProps: {
-        placeholder: '请输入轮播ID',
+        api: getSliderOptions,
+        labelField: 'label',
+        placeholder: '请选择轮播',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
       fieldName: 'imageUrl',
-      label: '图片地址',
+      label: '图片',
       rules: 'required',
-      component: 'Input',
+      component: 'ImageUpload',
       componentProps: {
-        placeholder: '请输入图片地址',
+        maxNumber: 1,
+        onDelete: options?.onImageDelete,
+        onFileSelect: options?.onImageFileSelect,
       },
     },
     {
       fieldName: 'imageWidth',
       label: '图片宽度',
       rules: 'required',
-      component: 'Input',
+      component: 'InputNumber',
       componentProps: {
-        placeholder: '请输入图片宽度',
+        disabled: true,
+        min: 1,
+        placeholder: '上传图片后自动填写',
       },
     },
     {
       fieldName: 'imageHeight',
       label: '图片高度',
       rules: 'required',
-      component: 'Input',
+      component: 'InputNumber',
       componentProps: {
-        placeholder: '请输入图片高度',
+        disabled: true,
+        min: 1,
+        placeholder: '上传图片后自动填写',
       },
     },
     {
@@ -64,9 +95,10 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'jumpPage',
       label: '跳转页面',
       rules: 'required',
-      component: 'Input',
+      component: 'Select',
       componentProps: {
-        placeholder: '请输入跳转页面',
+        options: getDictOptions(DICT_TYPE.GIFT_SLIDER_ITEM_JUMP_PAGE, 'string'),
+        placeholder: '请选择跳转页面',
       },
     },
     {
@@ -86,11 +118,15 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       fieldName: 'sliderId',
-      label: '轮播ID',
-      component: 'Input',
+      label: '关联轮播',
+      component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入轮播ID',
+        api: getSliderOptions,
+        labelField: 'label',
+        placeholder: '请选择轮播',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
@@ -132,10 +168,11 @@ export function useGridFormSchema(): VbenFormSchema[] {
     {
       fieldName: 'jumpPage',
       label: '跳转页面',
-      component: 'Input',
+      component: 'Select',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入跳转页面',
+        options: getDictOptions(DICT_TYPE.GIFT_SLIDER_ITEM_JUMP_PAGE, 'string'),
+        placeholder: '请选择跳转页面',
       },
     },
     {
@@ -170,13 +207,16 @@ export function useGridColumns(): VxeTableGridOptions<GiftSliderItemApi.SliderIt
     },
     {
       field: 'sliderId',
-      title: '轮播ID',
+      title: '关联轮播ID',
       minWidth: 120,
     },
     {
       field: 'imageUrl',
-      title: '图片地址',
+      title: '图片',
       minWidth: 120,
+      cellRender: {
+        name: 'CellImage',
+      },
     },
     {
       field: 'imageWidth',
@@ -197,6 +237,10 @@ export function useGridColumns(): VxeTableGridOptions<GiftSliderItemApi.SliderIt
       field: 'jumpPage',
       title: '跳转页面',
       minWidth: 120,
+      cellRender: {
+        name: 'CellDict',
+        props: { type: DICT_TYPE.GIFT_SLIDER_ITEM_JUMP_PAGE },
+      },
     },
     {
       field: 'jumpPageId',
