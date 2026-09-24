@@ -64,7 +64,7 @@ const batchStatus = ref<number>();
 const articleStatusOptions = getDictOptions(
   DICT_TYPE.GIFT_ARTICLE_STATUS,
   'number',
-);
+).map(({ label, value }) => ({ label, value: Number(value) }));
 
 /** 打开批量更新状态弹窗 */
 function handleOpenBatchStatusModal() {

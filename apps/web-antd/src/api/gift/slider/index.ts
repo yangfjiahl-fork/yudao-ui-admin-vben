@@ -6,7 +6,7 @@ export namespace GiftSliderApi {
   /** 轮播信息 */
   export interface Slider {
     id: number; // 主键
-    positionCode?: string; // 轮播位置
+    positionCode: string; // 轮播位置
     cityId?: number; // 城市ID
   }
 }

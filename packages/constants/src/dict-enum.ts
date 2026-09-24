@@ -281,6 +281,7 @@ const WMS_DICT = {
 
 /** ========== Gift - 羔享模块 ========== */
 const GIFT_DICT = {
+  GIFT_SLIDER_POSITION: 'gift_slider_position', // 轮播位置
   GIFT_WOOL_STATUS: 'gift_wool_status', // 羊毛收取状态
   GIFT_VIDEO_STATUS: 'gift_video_status', // 视频状态
   GIFT_VIDEO_QUALITY: 'gift_video_quality', // 视频清晰度

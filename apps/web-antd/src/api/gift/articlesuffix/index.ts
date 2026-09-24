@@ -5,8 +5,10 @@ import { requestClient } from '#/api/request';
 export namespace GiftArticleSuffixApi {
   /** 文章后缀信息 */
   export interface ArticleSuffix {
+    id?: number; // ID
     title?: string; // 签名标题
     content?: string; // 签名内容
+    createTime?: Date; // 创建时间
   }
 }
 

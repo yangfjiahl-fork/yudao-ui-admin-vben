@@ -44,12 +44,12 @@ function handleEdit(row: GiftSliderApi.Slider) {
 /** 删除轮播 */
 async function handleDelete(row: GiftSliderApi.Slider) {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.id]),
+    content: $t('ui.actionMessage.deleting', [row.positionCode]),
     duration: 0,
   });
   try {
     await deleteSlider(row.id!);
-    message.success($t('ui.actionMessage.deleteSuccess', [row.id]));
+    message.success($t('ui.actionMessage.deleteSuccess', [row.positionCode]));
     handleRefresh();
   } finally {
     hideLoading();
@@ -173,7 +173,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
               icon: ACTION_ICON.DELETE,
               auth: ['gift:slider:delete'],
               popConfirm: {
-                title: $t('ui.actionMessage.deleteConfirm', [row.id]),
+                title: $t('ui.actionMessage.deleteConfirm', [row.positionCode]),
                 confirm: handleDelete.bind(null, row),
               },
             },

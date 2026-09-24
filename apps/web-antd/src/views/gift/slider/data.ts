@@ -2,6 +2,12 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftSliderApi } from '#/api/gift/slider';
 
+import { markRaw } from 'vue';
+
+import { AreaLevelEnum, DICT_TYPE } from '@vben/constants';
+import { getDictOptions } from '@vben/hooks';
+
+import { AreaCascader } from '#/components/area';
 import { getRangePickerDefaultProps } from '#/utils';
 
 /** 新增/修改的表单 */
@@ -19,18 +25,22 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'positionCode',
       label: '轮播位置',
       rules: 'required',
-      component: 'Input',
+      component: 'Select',
       componentProps: {
-        placeholder: '请输入轮播位置',
+        options: getDictOptions(DICT_TYPE.GIFT_SLIDER_POSITION, 'string'),
+        placeholder: '请选择轮播位置',
       },
     },
     {
       fieldName: 'cityId',
-      label: '城市ID',
-      rules: 'required',
-      component: 'Input',
+      label: '城市',
+      component: markRaw(AreaCascader),
       componentProps: {
-        placeholder: '请输入城市ID',
+        allowClear: true,
+        class: '!w-full',
+        level: AreaLevelEnum.CITY,
+        placeholder: '请选择省市',
+        showSearch: true,
       },
     },
   ];
@@ -42,19 +52,23 @@ export function useGridFormSchema(): VbenFormSchema[] {
     {
       fieldName: 'positionCode',
       label: '轮播位置',
-      component: 'Input',
+      component: 'Select',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入轮播位置',
+        options: getDictOptions(DICT_TYPE.GIFT_SLIDER_POSITION, 'string'),
+        placeholder: '请选择轮播位置',
       },
     },
     {
       fieldName: 'cityId',
-      label: '城市ID',
-      component: 'Input',
+      label: '城市',
+      component: markRaw(AreaCascader),
       componentProps: {
         allowClear: true,
-        placeholder: '请输入城市ID',
+        class: '!w-full',
+        level: AreaLevelEnum.CITY,
+        placeholder: '请选择省市',
+        showSearch: true,
       },
     },
     {
@@ -82,6 +96,10 @@ export function useGridColumns(): VxeTableGridOptions<GiftSliderApi.Slider>['col
       field: 'positionCode',
       title: '轮播位置',
       minWidth: 120,
+      cellRender: {
+        name: 'CellDict',
+        props: { type: DICT_TYPE.GIFT_SLIDER_POSITION },
+      },
     },
     {
       field: 'cityId',

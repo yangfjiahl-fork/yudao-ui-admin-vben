@@ -27,11 +27,16 @@ export function useFormSchema(): VbenFormSchema[] {
         allowClear: true,
         api: async () => {
           const data = await getArticleCategoryList({});
-          data.unshift({
-            id: 0,
-            name: '顶级文章分类',
-          });
-          return handleTree(data);
+          return [
+            {
+              id: 0,
+              parentId: 0,
+              name: '顶级文章分类',
+              children: handleTree(
+                data,
+              ) as GiftArticleCategoryApi.ArticleCategory[],
+            },
+          ];
         },
         labelField: 'name',
         valueField: 'id',
