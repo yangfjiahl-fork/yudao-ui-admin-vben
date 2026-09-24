@@ -3,8 +3,9 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftItineraryApi } from '#/api/gift/itinerary';
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-import { confirm, Page, useVbenModal } from '@vben/common-ui';
+import { confirm, Page } from '@vben/common-ui';
 import { downloadFileFromBlobPart, isEmpty } from '@vben/utils';
 
 import { message } from 'ant-design-vue';
@@ -19,12 +20,8 @@ import {
 import { $t } from '#/locales';
 
 import { useGridColumns, useGridFormSchema } from './data';
-import Form from './modules/form.vue';
 
-const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: Form,
-  destroyOnClose: true,
-});
+const { push } = useRouter();
 
 /** 刷新表格 */
 function handleRefresh() {
@@ -33,12 +30,12 @@ function handleRefresh() {
 
 /** 创建线路 */
 function handleCreate() {
-  formModalApi.setData(null).open();
+  push({ name: 'GiftItineraryAdd' });
 }
 
 /** 编辑线路 */
 function handleEdit(row: GiftItineraryApi.Itinerary) {
-  formModalApi.setData(row).open();
+  push({ name: 'GiftItineraryEdit', params: { id: row.id } });
 }
 
 /** 删除线路 */
@@ -125,7 +122,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
 <template>
   <Page auto-content-height>
-    <FormModal @success="handleRefresh" />
     <Grid table-title="线路列表">
       <template #toolbar-tools>
         <TableAction

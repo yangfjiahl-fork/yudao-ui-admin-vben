@@ -2,6 +2,11 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftUserItineraryApi } from '#/api/gift/useritinerary';
 
+import { markRaw } from 'vue';
+
+import { AreaLevelEnum } from '@vben/constants';
+
+import { AreaCascader } from '#/components/area';
 import { getRangePickerDefaultProps } from '#/utils';
 
 /** 新增/修改的表单 */
@@ -91,19 +96,26 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'cityId',
-      label: '城市ID',
+      label: '城市',
       rules: 'required',
-      component: 'Input',
+      component: markRaw(AreaCascader),
       componentProps: {
-        placeholder: '请输入城市ID',
+        class: '!w-full',
+        level: AreaLevelEnum.CITY,
+        placeholder: '请选择省市',
+        showSearch: true,
       },
     },
     {
       fieldName: 'nextCityId',
-      label: '城市ID',
-      component: 'Input',
+      label: '下一城市',
+      component: markRaw(AreaCascader),
       componentProps: {
-        placeholder: '请输入城市ID',
+        allowClear: true,
+        class: '!w-full',
+        level: AreaLevelEnum.CITY,
+        placeholder: '请选择省市',
+        showSearch: true,
       },
     },
     {
@@ -194,20 +206,26 @@ export function useGridFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'cityId',
-      label: '城市ID',
-      component: 'Input',
+      label: '城市',
+      component: markRaw(AreaCascader),
       componentProps: {
         allowClear: true,
-        placeholder: '请输入城市ID',
+        class: '!w-full',
+        level: AreaLevelEnum.CITY,
+        placeholder: '请选择省市',
+        showSearch: true,
       },
     },
     {
       fieldName: 'nextCityId',
-      label: '城市ID',
-      component: 'Input',
+      label: '下一城市',
+      component: markRaw(AreaCascader),
       componentProps: {
         allowClear: true,
-        placeholder: '请输入城市ID',
+        class: '!w-full',
+        level: AreaLevelEnum.CITY,
+        placeholder: '请选择省市',
+        showSearch: true,
       },
     },
     {

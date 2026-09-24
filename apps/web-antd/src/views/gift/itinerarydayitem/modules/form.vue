@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import type { GiftItineraryDayItemApi } from '#/api/gift/itinerarydayitem';
 
-import { computed, ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-import { useVbenModal } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
+import { useTabs } from '@vben/hooks';
 
-import { message } from 'ant-design-vue';
+import { Button, Card, message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import {
@@ -17,13 +19,13 @@ import { $t } from '#/locales';
 
 import { useFormSchema } from '../data';
 
-const emit = defineEmits(['success']);
-const formData = ref<GiftItineraryDayItemApi.ItineraryDayItem>();
-const getTitle = computed(() => {
-  return formData.value?.id
-    ? $t('ui.actionTitle.edit', ['通用行程节点'])
-    : $t('ui.actionTitle.create', ['通用行程节点']);
-});
+defineOptions({ name: 'GiftItineraryDayItemForm' });
+
+const { params } = useRoute();
+const { closeCurrentTab } = useTabs();
+const itineraryDayItemId = ref<number>();
+const detailLoading = ref(false);
+const submitLoading = ref(false);
 
 const [Form, formApi] = useVbenForm({
   commonConfig: {
@@ -38,52 +40,55 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
 });
 
-const [Modal, modalApi] = useVbenModal({
-  async onConfirm() {
-    const { valid } = await formApi.validate();
-    if (!valid) {
-      return;
-    }
-    modalApi.lock();
-    // 提交表单
-    const data =
-      (await formApi.getValues()) as GiftItineraryDayItemApi.ItineraryDayItem;
-    try {
-      await (formData.value?.id
-        ? updateItineraryDayItem(data)
-        : createItineraryDayItem(data));
-      // 关闭并提示
-      await modalApi.close();
-      emit('success');
-      message.success($t('ui.actionMessage.operationSuccess'));
-    } finally {
-      modalApi.unlock();
-    }
-  },
-  async onOpenChange(isOpen: boolean) {
-    if (!isOpen) {
-      formData.value = undefined;
-      return;
-    }
-    // 加载数据
-    const data = modalApi.getData<GiftItineraryDayItemApi.ItineraryDayItem>();
-    if (!data || !data.id) {
-      return;
-    }
-    modalApi.lock();
-    try {
-      formData.value = await getItineraryDayItem(data.id);
-      // 设置到 values
-      await formApi.setValues(formData.value);
-    } finally {
-      modalApi.unlock();
-    }
-  },
+/** 提交表单 */
+async function handleSubmit() {
+  const { valid } = await formApi.validate();
+  if (!valid) {
+    return;
+  }
+  const data =
+    (await formApi.getValues()) as GiftItineraryDayItemApi.ItineraryDayItem;
+  submitLoading.value = true;
+  try {
+    await (itineraryDayItemId.value
+      ? updateItineraryDayItem(data)
+      : createItineraryDayItem(data));
+    message.success($t('ui.actionMessage.operationSuccess'));
+    await closeCurrentTab();
+  } finally {
+    submitLoading.value = false;
+  }
+}
+
+/** 获取行程节点详情 */
+async function getDetail() {
+  detailLoading.value = true;
+  try {
+    const data = await getItineraryDayItem(itineraryDayItemId.value!);
+    await formApi.setValues(data);
+  } finally {
+    detailLoading.value = false;
+  }
+}
+
+onMounted(async () => {
+  itineraryDayItemId.value = params.id ? Number(params.id) : undefined;
+  if (itineraryDayItemId.value) {
+    await getDetail();
+  }
 });
 </script>
 
 <template>
-  <Modal :title="getTitle">
-    <Form class="mx-4" />
-  </Modal>
+  <Page>
+    <Card class="w-full" :loading="detailLoading">
+      <Form class="mx-auto w-full xl:w-4/5" />
+      <div class="mt-4 flex justify-center gap-2">
+        <Button type="primary" :loading="submitLoading" @click="handleSubmit">
+          保存
+        </Button>
+        <Button @click="() => closeCurrentTab()">取消</Button>
+      </div>
+    </Card>
+  </Page>
 </template>
