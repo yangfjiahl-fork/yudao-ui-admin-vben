@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { CascaderProps } from 'ant-design-vue';
 
+import type { AreaLevelEnum } from '@vben/constants';
+
 import type { SystemAreaApi } from '#/api/system/area';
 
 import { onMounted, ref, watch } from 'vue';
@@ -14,6 +16,7 @@ defineOptions({ name: 'AreaCascader' });
 const props = withDefaults(defineProps<Props>(), {
   allowClear: false,
   changeOnSelect: false,
+  level: undefined,
   modelValue: undefined,
   placeholder: '请选择省市区',
   showSearch: false,
@@ -26,6 +29,7 @@ const emit = defineEmits<{
 interface Props {
   allowClear?: boolean;
   changeOnSelect?: boolean;
+  level?: (typeof AreaLevelEnum)[keyof typeof AreaLevelEnum];
   modelValue?: number;
   placeholder?: string;
   showSearch?: boolean;
@@ -44,6 +48,20 @@ const fieldNames = {
   label: 'name', // 标签字段
   value: 'id', // 值字段
 };
+
+/** 根据层级裁剪地区树 */
+function filterTreeByLevel(
+  tree: AreaTreeNode[],
+  maxLevel: number,
+): AreaTreeNode[] {
+  return tree.map((area) => ({
+    ...area,
+    children:
+      maxLevel > 1 && area.children?.length
+        ? filterTreeByLevel(area.children, maxLevel - 1)
+        : undefined,
+  }));
+}
 
 /**
  * 查找地区编号对应的级联路径
@@ -101,7 +119,8 @@ watch(() => props.modelValue, syncSelectedPath);
 onMounted(async () => {
   loading.value = true;
   try {
-    areaTree.value = (await getAreaTree()) as AreaTreeNode[];
+    const data = (await getAreaTree()) as AreaTreeNode[];
+    areaTree.value = props.level ? filterTreeByLevel(data, props.level) : data;
     syncSelectedPath();
   } finally {
     loading.value = false;
