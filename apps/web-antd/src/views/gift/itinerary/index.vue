@@ -28,17 +28,17 @@ function handleRefresh() {
   gridApi.query();
 }
 
-/** 创建线路 */
+/** 创建行程 */
 function handleCreate() {
   push({ name: 'GiftItineraryAdd' });
 }
 
-/** 编辑线路 */
+/** 编辑行程 */
 function handleEdit(row: GiftItineraryApi.Itinerary) {
   push({ name: 'GiftItineraryEdit', params: { id: row.id } });
 }
 
-/** 删除线路 */
+/** 删除行程 */
 async function handleDelete(row: GiftItineraryApi.Itinerary) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.id]),
@@ -53,7 +53,7 @@ async function handleDelete(row: GiftItineraryApi.Itinerary) {
   }
 }
 
-/** 批量删除线路 */
+/** 批量删除行程 */
 async function handleDeleteBatch() {
   await confirm($t('ui.actionMessage.deleteBatchConfirm'));
   const hideLoading = message.loading({
@@ -82,7 +82,7 @@ function handleRowCheckboxChange({
 /** 导出表格 */
 async function handleExport() {
   const data = await exportItinerary(await gridApi.formApi.getValues());
-  downloadFileFromBlobPart({ fileName: '线路.xls', source: data });
+  downloadFileFromBlobPart({ fileName: '行程.xls', source: data });
 }
 
 const [Grid, gridApi] = useVbenVxeGrid({
@@ -122,12 +122,12 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
 <template>
   <Page auto-content-height>
-    <Grid table-title="线路列表">
+    <Grid table-title="行程列表">
       <template #toolbar-tools>
         <TableAction
           :actions="[
             {
-              label: $t('ui.actionTitle.create', ['线路']),
+              label: $t('ui.actionTitle.create', ['行程']),
               type: 'primary',
               icon: ACTION_ICON.ADD,
               auth: ['gift:itinerary:create'],

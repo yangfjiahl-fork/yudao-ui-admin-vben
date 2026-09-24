@@ -2,8 +2,6 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftItineraryCategoryApi } from '#/api/gift/itinerarycategory';
 
-import { getRangePickerDefaultProps } from '#/utils';
-
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
   return [
@@ -55,33 +53,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
       componentProps: {
         allowClear: true,
         placeholder: '请输入标题',
-      },
-    },
-    {
-      fieldName: 'icon',
-      label: '图标',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入图标',
-      },
-    },
-    {
-      fieldName: 'sort',
-      label: '排序',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入排序',
-      },
-    },
-    {
-      fieldName: 'createTime',
-      label: '创建时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
       },
     },
   ];

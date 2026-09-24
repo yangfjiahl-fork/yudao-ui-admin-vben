@@ -3,6 +3,11 @@ import type { PageParam, PageResult } from '@vben/request';
 import { requestClient } from '#/api/request';
 
 export namespace GiftItineraryApi {
+  export interface ImageSize {
+    h: number;
+    w: number;
+  }
+
   /** 线路信息 */
   export interface Itinerary {
     id: number; // 主键
@@ -18,9 +23,6 @@ export namespace GiftItineraryApi {
     coverUrl: string; // 封面图
     coverWidth?: number; // 封面宽度
     coverHeight?: number; // 封面高度
-    firstCoverUrl: string; // 首图封面
-    firstCoverHeight?: number; // 首图高度
-    firstCoverWidth?: number; // 首图宽度
     nextCityId: number; // 城市ID
     viewCnt?: number; // 浏览数
     likeCnt?: number; // 点赞数

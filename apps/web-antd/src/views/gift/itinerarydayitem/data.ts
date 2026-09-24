@@ -1,4 +1,4 @@
-import type { VbenFormSchema } from '#/adapter/form';
+import type { VbenFormApi, VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftItineraryDayItemApi } from '#/api/gift/itinerarydayitem';
 
@@ -6,11 +6,30 @@ import { markRaw } from 'vue';
 
 import { AreaLevelEnum } from '@vben/constants';
 
+import { getItineraryPage } from '#/api/gift/itinerary';
+import { getItineraryDayPage } from '#/api/gift/itineraryday';
 import { AreaCascader } from '#/components/area';
 import { getRangePickerDefaultProps } from '#/utils';
 
+/** 获取行程下拉选项 */
+async function getItineraryOptions() {
+  const data = await getItineraryPage({ pageNo: 1, pageSize: 100 });
+  return data.list;
+}
+
+/** 格式化行程每日安排选项 */
+function getItineraryDayLabel(item: Record<string, unknown>) {
+  const title = typeof item.title === 'string' ? item.title : '';
+  return `第${Number(item.day)}天${title ? ` - ${title}` : ''}`;
+}
+
+/** 选择行程后再加载每日安排 */
+function shouldFetchItineraryDays(params: Record<string, unknown>) {
+  return Boolean(params.itineraryId);
+}
+
 /** 新增/修改的表单 */
-export function useFormSchema(): VbenFormSchema[] {
+export function useFormSchema(formApi?: VbenFormApi): VbenFormSchema[] {
   return [
     {
       fieldName: 'id',
@@ -22,20 +41,42 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'itineraryId',
-      label: '通用行程ID',
+      label: '行程',
       rules: 'required',
-      component: 'Input',
+      component: 'ApiSelect',
       componentProps: {
-        placeholder: '请输入通用行程ID',
+        api: getItineraryOptions,
+        labelField: 'title',
+        onChange: () => formApi?.setFieldValue('itineraryDayId', undefined),
+        placeholder: '请选择行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
       fieldName: 'itineraryDayId',
-      label: '通用行程日程ID',
+      label: '行程每日安排',
       rules: 'required',
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入通用行程日程ID',
+      component: 'ApiSelect',
+      dependencies: {
+        triggerFields: ['itineraryId'],
+        componentProps: (values) => ({
+          api: getItineraryDayPage,
+          disabled: !values.itineraryId,
+          labelFn: getItineraryDayLabel,
+          params: {
+            itineraryId: values.itineraryId,
+            pageNo: 1,
+            pageSize: 100,
+          },
+          placeholder: values.itineraryId
+            ? '请选择行程每日安排'
+            : '请先选择行程',
+          resultField: 'list',
+          shouldFetch: shouldFetchItineraryDays,
+          showSearch: true,
+          valueField: 'id',
+        }),
       },
     },
     {
@@ -248,20 +289,41 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       fieldName: 'itineraryId',
-      label: '通用行程ID',
-      component: 'Input',
+      label: '行程',
+      component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入通用行程ID',
+        api: getItineraryOptions,
+        labelField: 'title',
+        placeholder: '请选择行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
       fieldName: 'itineraryDayId',
-      label: '通用行程日程ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入通用行程日程ID',
+      label: '行程每日安排',
+      component: 'ApiSelect',
+      dependencies: {
+        triggerFields: ['itineraryId'],
+        componentProps: (values) => ({
+          allowClear: true,
+          api: getItineraryDayPage,
+          disabled: !values.itineraryId,
+          labelFn: getItineraryDayLabel,
+          params: {
+            itineraryId: values.itineraryId,
+            pageNo: 1,
+            pageSize: 100,
+          },
+          placeholder: values.itineraryId
+            ? '请选择行程每日安排'
+            : '请先选择行程',
+          resultField: 'list',
+          shouldFetch: shouldFetchItineraryDays,
+          showSearch: true,
+          valueField: 'id',
+        }),
       },
     },
     {

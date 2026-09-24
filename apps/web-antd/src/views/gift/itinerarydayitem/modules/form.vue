@@ -36,7 +36,7 @@ const [Form, formApi] = useVbenForm({
     labelWidth: 80,
   },
   layout: 'horizontal',
-  schema: useFormSchema(),
+  schema: [],
   showDefaultActions: false,
 });
 
@@ -72,6 +72,7 @@ async function getDetail() {
 }
 
 onMounted(async () => {
+  formApi.setState({ schema: useFormSchema(formApi) });
   itineraryDayItemId.value = params.id ? Number(params.id) : undefined;
   if (itineraryDayItemId.value) {
     await getDetail();

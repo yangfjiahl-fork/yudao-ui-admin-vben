@@ -6,8 +6,15 @@ import { markRaw } from 'vue';
 
 import { AreaLevelEnum } from '@vben/constants';
 
+import { getUserItineraryPage } from '#/api/gift/useritinerary';
 import { AreaCascader } from '#/components/area';
 import { getRangePickerDefaultProps } from '#/utils';
+
+/** 获取用户行程下拉选项 */
+async function getUserItineraryOptions() {
+  const data = await getUserItineraryPage({ pageNo: 1, pageSize: 100 });
+  return data.list;
+}
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -22,11 +29,15 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'userItineraryId',
-      label: '用户行程ID',
+      label: '用户行程',
       rules: 'required',
-      component: 'Input',
+      component: 'ApiSelect',
       componentProps: {
-        placeholder: '请输入用户行程ID',
+        api: getUserItineraryOptions,
+        labelField: 'title',
+        placeholder: '请选择用户行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
@@ -249,11 +260,15 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       fieldName: 'userItineraryId',
-      label: '用户行程ID',
-      component: 'Input',
+      label: '用户行程',
+      component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入用户行程ID',
+        api: getUserItineraryOptions,
+        labelField: 'title',
+        placeholder: '请选择用户行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {

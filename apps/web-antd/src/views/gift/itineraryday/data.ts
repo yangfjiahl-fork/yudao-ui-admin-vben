@@ -6,6 +6,7 @@ import { markRaw } from 'vue';
 
 import { AreaLevelEnum } from '@vben/constants';
 
+import { getItineraryPage } from '#/api/gift/itinerary';
 import { AreaCascader } from '#/components/area';
 import { getRangePickerDefaultProps } from '#/utils';
 
@@ -22,11 +23,21 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'itineraryId',
-      label: '通用行程ID',
+      label: '行程',
       rules: 'required',
-      component: 'Input',
+      component: 'ApiSelect',
       componentProps: {
-        placeholder: '请输入通用行程ID',
+        api: async () => {
+          const data = await getItineraryPage({
+            pageNo: 1,
+            pageSize: 100,
+          });
+          return data.list;
+        },
+        labelField: 'title',
+        placeholder: '请选择行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
@@ -69,7 +80,7 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       fieldName: 'description',
       label: '当日描述',
-      component: 'RichTextarea',
+      component: 'Textarea',
     },
     {
       fieldName: 'sort',
@@ -88,11 +99,21 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       fieldName: 'itineraryId',
-      label: '通用行程ID',
-      component: 'Input',
+      label: '行程',
+      component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入通用行程ID',
+        api: async () => {
+          const data = await getItineraryPage({
+            pageNo: 1,
+            pageSize: 100,
+          });
+          return data.list;
+        },
+        labelField: 'title',
+        placeholder: '请选择行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {

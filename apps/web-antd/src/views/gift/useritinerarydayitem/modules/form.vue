@@ -34,7 +34,7 @@ const [Form, formApi] = useVbenForm({
     labelWidth: 80,
   },
   layout: 'horizontal',
-  schema: useFormSchema(),
+  schema: [],
   showDefaultActions: false,
 });
 
@@ -65,6 +65,7 @@ const [Modal, modalApi] = useVbenModal({
       formData.value = undefined;
       return;
     }
+    formApi.setState({ schema: useFormSchema(formApi) });
     // 加载数据
     const data =
       modalApi.getData<GiftUserItineraryDayItemApi.UserItineraryDayItem>();

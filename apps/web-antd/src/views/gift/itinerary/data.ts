@@ -1,3 +1,5 @@
+import type { UploadFile } from 'ant-design-vue';
+
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftItineraryApi } from '#/api/gift/itinerary';
@@ -11,7 +13,12 @@ import { AreaCascader } from '#/components/area';
 import { getRangePickerDefaultProps } from '#/utils';
 
 /** 新增/修改的表单 */
-export function useFormSchema(): VbenFormSchema[] {
+export function useFormSchema(options?: {
+  onCoverDelete?: (file: UploadFile) => void;
+  onCoverFileSelect?: (file: File) => void;
+  onPicDelete?: (file: UploadFile) => void;
+  onPicFileSelect?: (file: File) => void;
+}): VbenFormSchema[] {
   return [
     {
       fieldName: 'id',
@@ -74,7 +81,7 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'description',
       label: '描述',
       rules: 'required',
-      component: 'RichTextarea',
+      component: 'Textarea',
     },
     {
       fieldName: 'icon',
@@ -88,17 +95,25 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'picUrls',
       label: '多图片',
       rules: 'required',
-      component: 'Input',
+      component: 'ImageUpload',
       componentProps: {
-        placeholder: '请输入多图片',
+        checkDuplicate: true,
+        maxNumber: 10,
+        maxSize: 30,
+        multiple: true,
+        onDelete: options?.onPicDelete,
+        onFileSelect: options?.onPicFileSelect,
       },
+      defaultValue: [],
     },
     {
       fieldName: 'picSizes',
       label: '图片尺寸',
-      component: 'Input',
+      component: 'Textarea',
+      defaultValue: '[]',
       componentProps: {
-        placeholder: '请输入图片尺寸',
+        disabled: true,
+        placeholder: '上传图片后自动填充',
       },
     },
     {
@@ -113,53 +128,34 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       fieldName: 'coverUrl',
       label: '封面图',
-      component: 'Input',
+      rules: 'required',
+      component: 'ImageUpload',
+      defaultValue: '',
       componentProps: {
-        placeholder: '请输入封面图',
+        checkDuplicate: true,
+        maxSize: 30,
+        onDelete: options?.onCoverDelete,
+        onFileSelect: options?.onCoverFileSelect,
       },
     },
     {
       fieldName: 'coverWidth',
       label: '封面宽度',
       rules: 'required',
-      component: 'Input',
+      component: 'InputNumber',
       componentProps: {
-        placeholder: '请输入封面宽度',
+        disabled: true,
+        placeholder: '上传封面后自动填充',
       },
     },
     {
       fieldName: 'coverHeight',
       label: '封面高度',
       rules: 'required',
-      component: 'Input',
+      component: 'InputNumber',
       componentProps: {
-        placeholder: '请输入封面高度',
-      },
-    },
-    {
-      fieldName: 'firstCoverUrl',
-      label: '首图封面',
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入首图封面',
-      },
-    },
-    {
-      fieldName: 'firstCoverHeight',
-      label: '首图高度',
-      rules: 'required',
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入首图高度',
-      },
-    },
-    {
-      fieldName: 'firstCoverWidth',
-      label: '首图宽度',
-      rules: 'required',
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入首图宽度',
+        disabled: true,
+        placeholder: '上传封面后自动填充',
       },
     },
     {
@@ -178,8 +174,10 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'viewCnt',
       label: '浏览数',
       rules: 'required',
-      component: 'Input',
+      component: 'InputNumber',
+      defaultValue: Math.floor(Math.random() * 100),
       componentProps: {
+        min: 0,
         placeholder: '请输入浏览数',
       },
     },
@@ -187,8 +185,10 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'likeCnt',
       label: '点赞数',
       rules: 'required',
-      component: 'Input',
+      component: 'InputNumber',
+      defaultValue: Math.floor(Math.random() * 100),
       componentProps: {
+        min: 0,
         placeholder: '请输入点赞数',
       },
     },
@@ -196,8 +196,10 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'sort',
       label: '排序',
       rules: 'required',
-      component: 'Input',
+      component: 'InputNumber',
+      defaultValue: 0,
       componentProps: {
+        min: 0,
         placeholder: '请输入排序',
       },
     },
@@ -329,33 +331,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'firstCoverUrl',
-      label: '首图封面',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入首图封面',
-      },
-    },
-    {
-      fieldName: 'firstCoverHeight',
-      label: '首图高度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入首图高度',
-      },
-    },
-    {
-      fieldName: 'firstCoverWidth',
-      label: '首图宽度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入首图宽度',
-      },
-    },
-    {
       fieldName: 'nextCityId',
       label: '下一城市',
       component: markRaw(AreaCascader),
@@ -473,21 +448,6 @@ export function useGridColumns(): VxeTableGridOptions<GiftItineraryApi.Itinerary
     {
       field: 'coverHeight',
       title: '封面高度',
-      minWidth: 120,
-    },
-    {
-      field: 'firstCoverUrl',
-      title: '首图封面',
-      minWidth: 120,
-    },
-    {
-      field: 'firstCoverHeight',
-      title: '首图高度',
-      minWidth: 120,
-    },
-    {
-      field: 'firstCoverWidth',
-      title: '首图宽度',
       minWidth: 120,
     },
     {

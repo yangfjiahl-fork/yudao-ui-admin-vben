@@ -1,4 +1,4 @@
-import type { VbenFormSchema } from '#/adapter/form';
+import type { VbenFormApi, VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftUserItineraryDayItemApi } from '#/api/gift/useritinerarydayitem';
 
@@ -6,11 +6,30 @@ import { markRaw } from 'vue';
 
 import { AreaLevelEnum } from '@vben/constants';
 
+import { getUserItineraryPage } from '#/api/gift/useritinerary';
+import { getUserItineraryDayPage } from '#/api/gift/useritineraryday';
 import { AreaCascader } from '#/components/area';
 import { getRangePickerDefaultProps } from '#/utils';
 
+/** 获取用户行程下拉选项 */
+async function getUserItineraryOptions() {
+  const data = await getUserItineraryPage({ pageNo: 1, pageSize: 100 });
+  return data.list;
+}
+
+/** 格式化用户行程每日安排选项 */
+function getUserItineraryDayLabel(item: Record<string, unknown>) {
+  const theme = typeof item.theme === 'string' ? item.theme : '';
+  return `第${Number(item.day)}天${theme ? ` - ${theme}` : ''}`;
+}
+
+/** 选择用户行程后再加载每日安排 */
+function shouldFetchUserItineraryDays(params: Record<string, unknown>) {
+  return Boolean(params.userItineraryId);
+}
+
 /** 新增/修改的表单 */
-export function useFormSchema(): VbenFormSchema[] {
+export function useFormSchema(formApi?: VbenFormApi): VbenFormSchema[] {
   return [
     {
       fieldName: 'id',
@@ -22,20 +41,42 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'userItineraryId',
-      label: '用户行程ID',
+      label: '用户行程',
       rules: 'required',
-      component: 'Input',
+      component: 'ApiSelect',
       componentProps: {
-        placeholder: '请输入用户行程ID',
+        api: getUserItineraryOptions,
+        labelField: 'title',
+        onChange: () => formApi?.setFieldValue('userItineraryDayId', undefined),
+        placeholder: '请选择用户行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
       fieldName: 'userItineraryDayId',
-      label: '用户行程日程ID',
+      label: '用户行程每日安排',
       rules: 'required',
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入用户行程日程ID',
+      component: 'ApiSelect',
+      dependencies: {
+        triggerFields: ['userItineraryId'],
+        componentProps: (values) => ({
+          api: getUserItineraryDayPage,
+          disabled: !values.userItineraryId,
+          labelFn: getUserItineraryDayLabel,
+          params: {
+            pageNo: 1,
+            pageSize: 100,
+            userItineraryId: values.userItineraryId,
+          },
+          placeholder: values.userItineraryId
+            ? '请选择用户行程每日安排'
+            : '请先选择用户行程',
+          resultField: 'list',
+          shouldFetch: shouldFetchUserItineraryDays,
+          showSearch: true,
+          valueField: 'id',
+        }),
       },
     },
     {
@@ -388,20 +429,41 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       fieldName: 'userItineraryId',
-      label: '用户行程ID',
-      component: 'Input',
+      label: '用户行程',
+      component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        placeholder: '请输入用户行程ID',
+        api: getUserItineraryOptions,
+        labelField: 'title',
+        placeholder: '请选择用户行程',
+        showSearch: true,
+        valueField: 'id',
       },
     },
     {
       fieldName: 'userItineraryDayId',
-      label: '用户行程日程ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入用户行程日程ID',
+      label: '用户行程每日安排',
+      component: 'ApiSelect',
+      dependencies: {
+        triggerFields: ['userItineraryId'],
+        componentProps: (values) => ({
+          allowClear: true,
+          api: getUserItineraryDayPage,
+          disabled: !values.userItineraryId,
+          labelFn: getUserItineraryDayLabel,
+          params: {
+            pageNo: 1,
+            pageSize: 100,
+            userItineraryId: values.userItineraryId,
+          },
+          placeholder: values.userItineraryId
+            ? '请选择用户行程每日安排'
+            : '请先选择用户行程',
+          resultField: 'list',
+          shouldFetch: shouldFetchUserItineraryDays,
+          showSearch: true,
+          valueField: 'id',
+        }),
       },
     },
     {

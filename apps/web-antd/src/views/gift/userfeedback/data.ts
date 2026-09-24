@@ -7,9 +7,6 @@ import { getDictOptions } from '@vben/hooks';
 
 import { getRangePickerDefaultProps } from '#/utils';
 
-const CATEGORY_DESCRIPTION =
-  '0未知，10地名名称，20地点图片，30地点介绍，40营业时间，50地理位置，60电话，99其他建议';
-
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
   return [
@@ -34,12 +31,25 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       fieldName: 'category',
       label: '问题分类',
-      help: CATEGORY_DESCRIPTION,
       rules: 'required',
-      component: 'InputNumber',
+      component: 'Select',
       componentProps: {
-        min: 0,
-        placeholder: '请输入问题分类',
+        options: getDictOptions(
+          DICT_TYPE.GIFT_USER_FEEDBACK_CATEGORY,
+          'number',
+        ),
+        placeholder: '请选择问题分类',
+      },
+    },
+    {
+      fieldName: 'status',
+      label: '处理状态',
+      rules: 'required',
+      component: 'Select',
+      defaultValue: 0,
+      componentProps: {
+        options: getDictOptions(DICT_TYPE.GIFT_USER_FEEDBACK_STATUS, 'number'),
+        placeholder: '请选择处理状态',
       },
     },
     {
@@ -91,12 +101,14 @@ export function useGridFormSchema(): VbenFormSchema[] {
     {
       fieldName: 'category',
       label: '问题分类',
-      help: CATEGORY_DESCRIPTION,
-      component: 'InputNumber',
+      component: 'Select',
       componentProps: {
         allowClear: true,
-        min: 0,
-        placeholder: '请输入问题分类',
+        options: getDictOptions(
+          DICT_TYPE.GIFT_USER_FEEDBACK_CATEGORY,
+          'number',
+        ),
+        placeholder: '请选择问题分类',
       },
     },
     {
@@ -175,6 +187,10 @@ export function useGridColumns(): VxeTableGridOptions<GiftUserFeedbackApi.UserFe
       field: 'category',
       title: '问题分类',
       minWidth: 120,
+      cellRender: {
+        name: 'CellDict',
+        props: { type: DICT_TYPE.GIFT_USER_FEEDBACK_CATEGORY },
+      },
     },
     {
       field: 'status',
