@@ -8,6 +8,8 @@ export namespace GiftSliderApi {
     id: number; // 主键
     positionCode: string; // 轮播位置
     cityId?: number; // 城市ID
+    cityName?: string; // 城市名称
+    provinceName?: string; // 省份名称
   }
 }
 

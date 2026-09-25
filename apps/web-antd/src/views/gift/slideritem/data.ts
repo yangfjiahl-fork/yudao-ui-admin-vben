@@ -7,18 +7,26 @@ import { getDictLabel, getDictOptions } from '@vben/hooks';
 
 import { getSliderPage } from '#/api/gift/slider';
 
+function formatSliderLabel(slider: {
+  cityName?: string;
+  positionCode?: string;
+  provinceName?: string;
+}) {
+  const position = slider.positionCode
+    ? getDictLabel(DICT_TYPE.GIFT_SLIDER_POSITION, slider.positionCode) ||
+      slider.positionCode
+    : '-';
+  const province = slider.provinceName || '全部省份';
+  const city = slider.cityName || '全部城市';
+  return `${position}/${province}/${city}`;
+}
+
 async function getSliderOptions() {
   const data = await getSliderPage({ pageNo: 1, pageSize: 100 });
-  return data.list.map((slider) => {
-    const position =
-      getDictLabel(DICT_TYPE.GIFT_SLIDER_POSITION, slider.positionCode) ||
-      slider.positionCode;
-    const city = slider.cityId ? `城市 ${slider.cityId}` : '全部城市';
-    return {
-      ...slider,
-      label: `${position} / ${city}（ID: ${slider.id}）`,
-    };
-  });
+  return data.list.map((slider) => ({
+    ...slider,
+    label: formatSliderLabel(slider),
+  }));
 }
 
 /** 新增/修改的表单 */
@@ -152,8 +160,9 @@ export function useGridColumns(): VxeTableGridOptions<GiftSliderItemApi.SliderIt
     },
     {
       field: 'sliderId',
-      title: '关联轮播ID',
-      minWidth: 120,
+      title: '关联轮播',
+      minWidth: 240,
+      formatter: ({ row }) => formatSliderLabel(row),
     },
     {
       field: 'imageUrl',

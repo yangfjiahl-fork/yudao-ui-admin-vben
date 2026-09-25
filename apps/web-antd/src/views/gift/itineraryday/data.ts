@@ -8,7 +8,6 @@ import { AreaLevelEnum } from '@vben/constants';
 
 import { getItineraryPage } from '#/api/gift/itinerary';
 import { AreaCascader } from '#/components/area';
-import { getRangePickerDefaultProps } from '#/utils';
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -138,48 +137,12 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'districtId',
-      label: '当日区县ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入当日区县ID',
-      },
-    },
-    {
       fieldName: 'title',
       label: '当日标题',
       component: 'Input',
       componentProps: {
         allowClear: true,
         placeholder: '请输入当日标题',
-      },
-    },
-    {
-      fieldName: 'description',
-      label: '当日描述',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入当日描述',
-      },
-    },
-    {
-      fieldName: 'sort',
-      label: '排序值',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入排序值',
-      },
-    },
-    {
-      fieldName: 'createTime',
-      label: '创建时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
       },
     },
   ];

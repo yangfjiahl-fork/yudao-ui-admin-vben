@@ -7,6 +7,10 @@ export namespace GiftSliderItemApi {
   export interface SliderItem {
     id?: number; // 主键
     sliderId: number; // 轮播ID
+    positionCode?: string; // 轮播位置
+    cityId?: number; // 城市ID
+    provinceName?: string; // 省份名称
+    cityName?: string; // 城市名称
     imageUrl: string; // 图片地址
     imageWidth: number; // 图片宽度
     imageHeight: number; // 图片高度

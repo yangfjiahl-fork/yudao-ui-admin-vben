@@ -93,8 +93,10 @@ export function useGridColumns(): VxeTableGridOptions<GiftSliderApi.Slider>['col
     },
     {
       field: 'cityId',
-      title: '城市ID',
-      minWidth: 120,
+      title: '城市',
+      minWidth: 180,
+      formatter: ({ row }) =>
+        `${row.provinceName || '全部省份'}/${row.cityName || '全部城市'}`,
     },
     {
       field: 'createTime',
