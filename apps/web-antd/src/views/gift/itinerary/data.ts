@@ -391,13 +391,18 @@ export function useGridColumns(): VxeTableGridOptions<GiftItineraryApi.Itinerary
       minWidth: 120,
     },
     {
-      field: 'cityId',
-      title: '城市ID',
+      field: 'provinceName',
+      title: '省份',
       minWidth: 120,
     },
     {
-      field: 'categoryId',
-      title: '行程类别ID',
+      field: 'cityName',
+      title: '城市',
+      minWidth: 120,
+    },
+    {
+      field: 'categoryName',
+      title: '行程类别',
       minWidth: 120,
     },
     {
@@ -448,11 +453,6 @@ export function useGridColumns(): VxeTableGridOptions<GiftItineraryApi.Itinerary
     {
       field: 'coverHeight',
       title: '封面高度',
-      minWidth: 120,
-    },
-    {
-      field: 'nextCityId',
-      title: '城市ID',
       minWidth: 120,
     },
     {

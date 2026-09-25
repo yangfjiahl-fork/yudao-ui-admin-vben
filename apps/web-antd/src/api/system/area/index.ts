@@ -3,9 +3,8 @@ import { requestClient } from '#/api/request';
 export namespace SystemAreaApi {
   /** 地区信息 */
   export interface Area {
-    id?: number;
+    id: number;
     name: string;
-    code: string;
     parentId?: number;
     sort?: number;
     status?: number;

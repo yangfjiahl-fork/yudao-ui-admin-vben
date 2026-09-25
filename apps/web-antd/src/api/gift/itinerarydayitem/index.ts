@@ -19,6 +19,8 @@ export namespace GiftItineraryDayItemApi {
     poiId: string; // POI供应商地点ID
     provinceId: number; // POI省级区域ID
     cityId: number; // POI城市ID
+    cityName?: string; // POI城市名称
+    provinceName?: string; // POI省份名称
     districtId: number; // POI区县ID
     longitude: number; // POI经度
     latitude: number; // POI纬度

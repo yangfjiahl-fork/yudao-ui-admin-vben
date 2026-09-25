@@ -299,13 +299,13 @@ export function useGridColumns(): VxeTableGridOptions<GiftUserItineraryApi.UserI
       minWidth: 120,
     },
     {
-      field: 'cityId',
-      title: '城市ID',
+      field: 'departure',
+      title: '出发地',
       minWidth: 120,
     },
     {
-      field: 'nextCityId',
-      title: '城市ID',
+      field: 'destination',
+      title: '目的地',
       minWidth: 120,
     },
     {

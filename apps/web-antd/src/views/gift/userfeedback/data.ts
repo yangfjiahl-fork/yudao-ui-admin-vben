@@ -5,8 +5,6 @@ import type { GiftUserFeedbackApi } from '#/api/gift/userfeedback';
 import { DICT_TYPE } from '@vben/constants';
 import { getDictOptions } from '@vben/hooks';
 
-import { getRangePickerDefaultProps } from '#/utils';
-
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
   return [
@@ -56,7 +54,7 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'content',
       label: '反馈问题与建议',
       rules: 'required',
-      component: 'RichTextarea',
+      component: 'Textarea',
     },
     {
       fieldName: 'poiId',
@@ -78,8 +76,9 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'poiProvider',
       label: 'POI数据供应商',
       component: 'Input',
+      defaultValue: 'gaode',
       componentProps: {
-        placeholder: '请输入POI数据供应商',
+        disabled: true,
       },
     },
   ];
@@ -115,55 +114,11 @@ export function useGridFormSchema(): VbenFormSchema[] {
       fieldName: 'status',
       label: '处理状态',
       component: 'Select',
+      defaultValue: 0,
       componentProps: {
         allowClear: true,
         options: getDictOptions(DICT_TYPE.GIFT_USER_FEEDBACK_STATUS, 'number'),
         placeholder: '请选择处理状态',
-      },
-    },
-    {
-      fieldName: 'content',
-      label: '反馈问题与建议',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入反馈问题与建议',
-      },
-    },
-    {
-      fieldName: 'poiId',
-      label: 'POI供应商地点ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI供应商地点ID',
-      },
-    },
-    {
-      fieldName: 'poiName',
-      label: 'POI名称快照',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI名称快照',
-      },
-    },
-    {
-      fieldName: 'poiProvider',
-      label: 'POI数据供应商',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI数据供应商',
-      },
-    },
-    {
-      fieldName: 'createTime',
-      label: '创建时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
       },
     },
   ];

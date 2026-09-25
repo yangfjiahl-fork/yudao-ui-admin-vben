@@ -205,13 +205,13 @@ export function useGridColumns(): VxeTableGridOptions<GiftItineraryDayApi.Itiner
       minWidth: 120,
     },
     {
-      field: 'cityId',
-      title: '当日城市ID',
+      field: 'provinceName',
+      title: '省份',
       minWidth: 120,
     },
     {
-      field: 'districtId',
-      title: '当日区县ID',
+      field: 'cityName',
+      title: '城市',
       minWidth: 120,
     },
     {

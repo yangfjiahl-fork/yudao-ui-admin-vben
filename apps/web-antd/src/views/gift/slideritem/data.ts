@@ -6,7 +6,6 @@ import { DICT_TYPE } from '@vben/constants';
 import { getDictLabel, getDictOptions } from '@vben/hooks';
 
 import { getSliderPage } from '#/api/gift/slider';
-import { getRangePickerDefaultProps } from '#/utils';
 
 async function getSliderOptions() {
   const data = await getSliderPage({ pageNo: 1, pageSize: 100 });
@@ -130,42 +129,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'imageUrl',
-      label: '图片地址',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入图片地址',
-      },
-    },
-    {
-      fieldName: 'imageWidth',
-      label: '图片宽度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入图片宽度',
-      },
-    },
-    {
-      fieldName: 'imageHeight',
-      label: '图片高度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入图片高度',
-      },
-    },
-    {
-      fieldName: 'sort',
-      label: '顺序',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入顺序',
-      },
-    },
-    {
       fieldName: 'jumpPage',
       label: '跳转页面',
       component: 'Select',
@@ -173,24 +136,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
         allowClear: true,
         options: getDictOptions(DICT_TYPE.GIFT_SLIDER_ITEM_JUMP_PAGE, 'string'),
         placeholder: '请选择跳转页面',
-      },
-    },
-    {
-      fieldName: 'jumpPageId',
-      label: '跳转页面ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入跳转页面ID',
-      },
-    },
-    {
-      fieldName: 'createTime',
-      label: '创建时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
       },
     },
   ];

@@ -914,23 +914,8 @@ export function useGridColumns(): VxeTableGridOptions<GiftUserItineraryDayItemAp
       minWidth: 120,
     },
     {
-      field: 'provinceId',
-      title: 'POI省级区域ID',
-      minWidth: 120,
-    },
-    {
-      field: 'cityId',
-      title: 'POI城市ID',
-      minWidth: 120,
-    },
-    {
-      field: 'districtId',
-      title: 'POI区县ID',
-      minWidth: 120,
-    },
-    {
       field: 'city',
-      title: 'POI城市名称',
+      title: 'POI城市',
       minWidth: 120,
     },
     {

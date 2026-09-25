@@ -12,7 +12,10 @@ export namespace GiftItineraryApi {
   export interface Itinerary {
     id: number; // 主键
     cityId?: number; // 城市ID
+    cityName?: string; // 城市名称
+    provinceName?: string; // 省份名称
     categoryId?: number; // 类别ID
+    categoryName?: string; // 行程类别名称
     title?: string; // 标题
     subTitle?: string; // 副标题
     description?: string; // 描述

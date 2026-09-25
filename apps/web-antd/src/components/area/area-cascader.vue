@@ -49,6 +49,18 @@ const fieldNames = {
   value: 'id', // 值字段
 };
 
+/** 按地区编号递归排序，保证各级选项顺序固定。 */
+function sortTreeById(tree: AreaTreeNode[]): AreaTreeNode[] {
+  const sortedTree = [...tree];
+  // 使用兼容旧浏览器的排序方式。
+  // oxlint-disable-next-line unicorn/no-array-sort
+  sortedTree.sort((left, right) => left.id - right.id);
+  return sortedTree.map((area) => ({
+    ...area,
+    children: area.children?.length ? sortTreeById(area.children) : undefined,
+  }));
+}
+
 /** 根据层级裁剪地区树 */
 function filterTreeByLevel(
   tree: AreaTreeNode[],
@@ -79,9 +91,6 @@ function findAreaPath(
   }
 
   for (const area of tree) {
-    if (area.id === undefined) {
-      continue;
-    }
     if (area.id === areaId) {
       return [area.id];
     }
@@ -120,7 +129,10 @@ onMounted(async () => {
   loading.value = true;
   try {
     const data = (await getAreaTree()) as AreaTreeNode[];
-    areaTree.value = props.level ? filterTreeByLevel(data, props.level) : data;
+    const sortedData = sortTreeById(data);
+    areaTree.value = props.level
+      ? filterTreeByLevel(sortedData, props.level)
+      : sortedData;
     syncSelectedPath();
   } finally {
     loading.value = false;

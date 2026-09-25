@@ -19,6 +19,8 @@ export namespace GiftUserItineraryApi {
     cityId?: number; // 城市ID
     nextCityId: number; // 城市ID
     preference: string; // 偏好
+    departure?: string; // 出发地
+    destination?: string; // 目的地
   }
 }
 

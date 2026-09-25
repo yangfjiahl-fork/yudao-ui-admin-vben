@@ -9,6 +9,8 @@ export namespace GiftItineraryDayApi {
     itineraryId?: number; // 通用行程ID
     day?: number; // 行程第几天，从1开始
     cityId: number; // 当日城市ID
+    cityName?: string; // 当日城市名称
+    provinceName?: string; // 当日省份名称
     districtId: number; // 当日区县ID
     title: string; // 当日标题
     description: string; // 当日描述

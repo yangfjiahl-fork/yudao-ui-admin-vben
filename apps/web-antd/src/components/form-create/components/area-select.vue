@@ -32,7 +32,6 @@ const emit = defineEmits<{
 interface AreaVO {
   id: number;
   name: string;
-  code: string;
   parentId?: number;
   sort?: number;
   status?: number;
