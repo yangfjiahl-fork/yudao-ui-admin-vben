@@ -159,13 +159,13 @@ export function useFormSchema(options?: {
     },
     {
       fieldName: 'nextCityId',
-      label: '下一城市',
+      label: '第二城市',
       component: markRaw(AreaCascader),
       componentProps: {
         allowClear: true,
         class: '!w-full',
         level: AreaLevelEnum.CITY,
-        placeholder: '请选择省市',
+        placeholder: '请选择第二城市',
         showSearch: true,
       },
     },

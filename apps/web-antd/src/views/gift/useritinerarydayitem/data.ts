@@ -4,7 +4,8 @@ import type { GiftUserItineraryDayItemApi } from '#/api/gift/useritinerarydayite
 
 import { markRaw } from 'vue';
 
-import { AreaLevelEnum } from '@vben/constants';
+import { AreaLevelEnum, DICT_TYPE } from '@vben/constants';
+import { getDictOptions } from '@vben/hooks';
 
 import { getUserItineraryPage } from '#/api/gift/useritinerary';
 import { getUserItineraryDayPage } from '#/api/gift/useritineraryday';
@@ -103,7 +104,7 @@ export function useFormSchema(formApi?: VbenFormApi): VbenFormSchema[] {
       rules: 'required',
       component: 'Select',
       componentProps: {
-        options: [],
+        options: getDictOptions(DICT_TYPE.GIFT_AMAP_POI_TYPE, 'string'),
         placeholder: '请选择节点类型',
       },
     },
@@ -490,7 +491,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       component: 'Select',
       componentProps: {
         allowClear: true,
-        options: [],
+        options: getDictOptions(DICT_TYPE.GIFT_AMAP_POI_TYPE, 'string'),
         placeholder: '请选择节点类型',
       },
     },

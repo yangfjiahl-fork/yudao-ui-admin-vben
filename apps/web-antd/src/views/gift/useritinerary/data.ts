@@ -7,7 +7,6 @@ import { markRaw } from 'vue';
 import { AreaLevelEnum } from '@vben/constants';
 
 import { AreaCascader } from '#/components/area';
-import { getRangePickerDefaultProps } from '#/utils';
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -108,13 +107,13 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'nextCityId',
-      label: '下一城市',
+      label: '第二城市',
       component: markRaw(AreaCascader),
       componentProps: {
         allowClear: true,
         class: '!w-full',
         level: AreaLevelEnum.CITY,
-        placeholder: '请选择省市',
+        placeholder: '请选择第二城市',
         showSearch: true,
       },
     },
@@ -151,51 +150,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'coverUrl',
-      label: '封面图',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入封面图',
-      },
-    },
-    {
-      fieldName: 'coverWidth',
-      label: '宽度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入宽度',
-      },
-    },
-    {
-      fieldName: 'coverHeight',
-      label: '高度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入高度',
-      },
-    },
-    {
-      fieldName: 'startDate',
-      label: '开始日期',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
-      },
-    },
-    {
-      fieldName: 'endDate',
-      label: '完成日期',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
-      },
-    },
-    {
       fieldName: 'dayCnt',
       label: '天数',
       component: 'Input',
@@ -218,32 +172,14 @@ export function useGridFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'nextCityId',
-      label: '下一城市',
+      label: '第二城市',
       component: markRaw(AreaCascader),
       componentProps: {
         allowClear: true,
         class: '!w-full',
         level: AreaLevelEnum.CITY,
-        placeholder: '请选择省市',
+        placeholder: '请选择第二城市',
         showSearch: true,
-      },
-    },
-    {
-      fieldName: 'preference',
-      label: '偏好',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入偏好',
-      },
-    },
-    {
-      fieldName: 'createTime',
-      label: '创建时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
       },
     },
   ];

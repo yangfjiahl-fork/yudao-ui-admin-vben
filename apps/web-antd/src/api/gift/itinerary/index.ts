@@ -26,7 +26,7 @@ export namespace GiftItineraryApi {
     coverUrl: string; // 封面图
     coverWidth?: number; // 封面宽度
     coverHeight?: number; // 封面高度
-    nextCityId: number; // 城市ID
+    nextCityId: number; // 第二城市ID
     viewCnt?: number; // 浏览数
     likeCnt?: number; // 点赞数
     sort?: number; // 排序

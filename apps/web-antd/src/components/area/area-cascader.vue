@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
+  pathChange: [value?: number[]];
   'update:modelValue': [value?: number];
 }>();
 
@@ -112,14 +113,23 @@ function syncSelectedPath() {
 /** 选择地区后回写最后一级地区编号 */
 const handleChange: NonNullable<CascaderProps['onChange']> = (value) => {
   if (!value?.length) {
+    emit('pathChange', undefined);
     emit('update:modelValue', undefined);
     return;
   }
 
   const path = Array.isArray(value[0]) ? value[0] : value;
-  const leafValue = path.at(-1);
-  const areaId = typeof leafValue === 'number' ? leafValue : Number(leafValue);
-  emit('update:modelValue', Number.isNaN(areaId) ? undefined : areaId);
+  const areaPath = path.map((item) =>
+    typeof item === 'number' ? item : Number(item),
+  );
+  if (areaPath.some((item) => Number.isNaN(item))) {
+    emit('pathChange', undefined);
+    emit('update:modelValue', undefined);
+    return;
+  }
+
+  emit('pathChange', areaPath);
+  emit('update:modelValue', areaPath.at(-1));
 };
 
 watch(() => props.modelValue, syncSelectedPath);

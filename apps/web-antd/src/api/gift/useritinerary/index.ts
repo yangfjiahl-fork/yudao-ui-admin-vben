@@ -17,7 +17,7 @@ export namespace GiftUserItineraryApi {
     endDate: Dayjs | string; // 完成日期
     dayCnt?: number; // 天数
     cityId?: number; // 城市ID
-    nextCityId: number; // 城市ID
+    nextCityId: number; // 第二城市ID
     preference: string; // 偏好
     departure?: string; // 出发地
     destination?: string; // 目的地

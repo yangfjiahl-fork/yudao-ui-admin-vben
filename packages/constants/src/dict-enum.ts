@@ -281,6 +281,7 @@ const WMS_DICT = {
 
 /** ========== Gift - 羔享模块 ========== */
 const GIFT_DICT = {
+  GIFT_AMAP_POI_TYPE: 'gift_amap_poi_type', // 高德 POI 类型
   GIFT_SLIDER_ITEM_JUMP_PAGE: 'gift_slider_item_jump_page', // 轮播图跳转页面
   GIFT_SLIDER_POSITION: 'gift_slider_position', // 轮播位置
   GIFT_WOOL_STATUS: 'gift_wool_status', // 羊毛收取状态

@@ -30,7 +30,6 @@ export namespace GiftItineraryDayItemApi {
     picUrls: string; // 图片地址集合
     picSizes: string; // 图片尺寸集合
     tags: string; // 标签集合
-    gdPosition: string; // 高德地图坐标
     businessTime: string; // 营业时间
     addressDetail: string; // 详细地址
     phoneNo: string; // 联系电话
