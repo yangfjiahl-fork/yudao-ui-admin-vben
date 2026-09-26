@@ -21,8 +21,8 @@ const emit = defineEmits(['success']);
 const formData = ref<GiftItineraryCategoryApi.ItineraryCategory>();
 const getTitle = computed(() => {
   return formData.value?.id
-    ? $t('ui.actionTitle.edit', ['线路类别'])
-    : $t('ui.actionTitle.create', ['线路类别']);
+    ? $t('ui.actionTitle.edit', ['行程类别'])
+    : $t('ui.actionTitle.create', ['行程类别']);
 });
 
 const [Form, formApi] = useVbenForm({

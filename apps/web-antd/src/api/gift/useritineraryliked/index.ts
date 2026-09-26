@@ -7,7 +7,9 @@ export namespace GiftUserItineraryLikedApi {
   export interface UserItineraryLiked {
     id: number; // 主键
     itineraryId?: number; // 行程ID
+    itineraryName?: string; // 行程名称
     memberId?: number; // 会员ID
+    memberName?: string; // 会员名称
   }
 }
 

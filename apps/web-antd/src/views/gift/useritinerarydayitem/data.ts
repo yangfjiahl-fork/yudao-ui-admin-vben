@@ -10,7 +10,6 @@ import { getDictOptions } from '@vben/hooks';
 import { getUserItineraryPage } from '#/api/gift/useritinerary';
 import { getUserItineraryDayPage } from '#/api/gift/useritineraryday';
 import { AreaCascader } from '#/components/area';
-import { getRangePickerDefaultProps } from '#/utils';
 
 /** 获取用户行程下拉选项 */
 async function getUserItineraryOptions() {
@@ -27,6 +26,12 @@ function getUserItineraryDayLabel(item: Record<string, unknown>) {
 /** 选择用户行程后再加载每日安排 */
 function shouldFetchUserItineraryDays(params: Record<string, unknown>) {
   return Boolean(params.userItineraryId);
+}
+
+/** 级联选择后同步 POI 省市编号，区县编号由表单字段自动回写。 */
+function handlePoiAreaChange(formApi?: VbenFormApi, areaPath?: number[]) {
+  formApi?.setFieldValue('provinceId', areaPath?.[0]);
+  formApi?.setFieldValue('cityId', areaPath?.[1]);
 }
 
 /** 新增/修改的表单 */
@@ -180,30 +185,32 @@ export function useFormSchema(formApi?: VbenFormApi): VbenFormSchema[] {
     },
     {
       fieldName: 'provinceId',
-      label: 'POI省级区域ID',
       component: 'Input',
-      componentProps: {
-        placeholder: '请输入POI省级区域ID',
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
       },
     },
     {
       fieldName: 'cityId',
-      label: 'POI城市',
-      component: markRaw(AreaCascader),
-      componentProps: {
-        allowClear: true,
-        class: '!w-full',
-        level: AreaLevelEnum.CITY,
-        placeholder: '请选择省市',
-        showSearch: true,
+      component: 'Input',
+      dependencies: {
+        triggerFields: [''],
+        show: () => false,
       },
     },
     {
       fieldName: 'districtId',
-      label: 'POI区县ID',
-      component: 'Input',
+      label: 'POI省市区',
+      component: markRaw(AreaCascader),
       componentProps: {
-        placeholder: '请输入POI区县ID',
+        allowClear: true,
+        class: '!w-full',
+        level: AreaLevelEnum.DISTRICT,
+        onPathChange: (areaPath?: number[]) =>
+          handlePoiAreaChange(formApi, areaPath),
+        placeholder: '请选择省市区',
+        showSearch: true,
       },
     },
     {
@@ -467,24 +474,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
         }),
       },
     },
-    {
-      fieldName: 'itemId',
-      label: '行程节点业务ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入行程节点业务ID',
-      },
-    },
-    {
-      fieldName: 'day',
-      label: '所属行程天数',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入所属行程天数',
-      },
-    },
+
     {
       fieldName: 'type',
       label: '节点类型',
@@ -496,345 +486,15 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'slot',
-      label: '节点时段',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入节点时段',
-      },
-    },
-    {
-      fieldName: 'label',
-      label: '节点展示标签',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入节点展示标签',
-      },
-    },
-    {
-      fieldName: 'sort',
-      label: '当日节点排序值',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入当日节点排序值',
-      },
-    },
-    {
-      fieldName: 'startTime',
-      label: '计划开始时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
-      },
-    },
-    {
-      fieldName: 'endTime',
-      label: '计划结束时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
-      },
-    },
-    {
-      fieldName: 'durationMinutes',
-      label: '建议停留分钟数',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入建议停留分钟数',
-      },
-    },
-    {
-      fieldName: 'poiId',
-      label: 'POI供应商地点ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI供应商地点ID',
-      },
-    },
-    {
-      fieldName: 'poiName',
-      label: 'POI名称',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI名称',
-      },
-    },
-    {
-      fieldName: 'provinceId',
-      label: 'POI省级区域ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI省级区域ID',
-      },
-    },
-    {
-      fieldName: 'cityId',
-      label: 'POI城市',
+      fieldName: 'districtId',
+      label: 'POI省市区',
       component: markRaw(AreaCascader),
       componentProps: {
         allowClear: true,
         class: '!w-full',
-        level: AreaLevelEnum.CITY,
-        placeholder: '请选择省市',
+        level: AreaLevelEnum.DISTRICT,
+        placeholder: '请选择省市区',
         showSearch: true,
-      },
-    },
-    {
-      fieldName: 'districtId',
-      label: 'POI区县ID',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI区县ID',
-      },
-    },
-    {
-      fieldName: 'city',
-      label: 'POI城市名称',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI城市名称',
-      },
-    },
-    {
-      fieldName: 'area',
-      label: 'POI所在区域',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI所在区域',
-      },
-    },
-    {
-      fieldName: 'addressDetail',
-      label: 'POI详细地址',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI详细地址',
-      },
-    },
-    {
-      fieldName: 'longitude',
-      label: 'POI经度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI经度',
-      },
-    },
-    {
-      fieldName: 'latitude',
-      label: 'POI纬度',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI纬度',
-      },
-    },
-    {
-      fieldName: 'coordinateSystem',
-      label: '坐标系',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入坐标系',
-      },
-    },
-    {
-      fieldName: 'businessHours',
-      label: '营业时间',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入营业时间',
-      },
-    },
-    {
-      fieldName: 'phoneNo',
-      label: '联系电话',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入联系电话',
-      },
-    },
-    {
-      fieldName: 'coverUrl',
-      label: '封面图地址',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入封面图地址',
-      },
-    },
-    {
-      fieldName: 'rating',
-      label: '评分',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入评分',
-      },
-    },
-    {
-      fieldName: 'cost',
-      label: '预计花费',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入预计花费',
-      },
-    },
-    {
-      fieldName: 'tagsJson',
-      label: '标签JSON',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入标签JSON',
-      },
-    },
-    {
-      fieldName: 'skeleton',
-      label: '节点骨架文案',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入节点骨架文案',
-      },
-    },
-    {
-      fieldName: 'detail',
-      label: '节点详细文案',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入节点详细文案',
-      },
-    },
-    {
-      fieldName: 'status',
-      label: '节点内容状态',
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [],
-        placeholder: '请选择节点内容状态',
-      },
-    },
-    {
-      fieldName: 'resolveStatus',
-      label: '节点解析状态',
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [],
-        placeholder: '请选择节点解析状态',
-      },
-    },
-    {
-      fieldName: 'planningStatus',
-      label: '节点排程状态',
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [],
-        placeholder: '请选择节点排程状态',
-      },
-    },
-    {
-      fieldName: 'poiVerificationStatus',
-      label: 'POI校验状态',
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [],
-        placeholder: '请选择POI校验状态',
-      },
-    },
-    {
-      fieldName: 'mustVisit',
-      label: '是否必去',
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [],
-        placeholder: '请选择是否必去',
-      },
-    },
-    {
-      fieldName: 'locked',
-      label: '是否锁定',
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [],
-        placeholder: '请选择是否锁定',
-      },
-    },
-    {
-      fieldName: 'source',
-      label: '节点来源',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入节点来源',
-      },
-    },
-    {
-      fieldName: 'provider',
-      label: 'POI数据供应商',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI数据供应商',
-      },
-    },
-    {
-      fieldName: 'poiSnapshotJson',
-      label: 'POI快照JSON',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入POI快照JSON',
-      },
-    },
-    {
-      fieldName: 'candidatesJson',
-      label: '候选POI JSON',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入候选POI JSON',
-      },
-    },
-    {
-      fieldName: 'citationIdsJson',
-      label: '引用来源ID JSON',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入引用来源ID JSON',
-      },
-    },
-    {
-      fieldName: 'createTime',
-      label: '创建时间',
-      component: 'RangePicker',
-      componentProps: {
-        ...getRangePickerDefaultProps(),
-        allowClear: true,
       },
     },
   ];

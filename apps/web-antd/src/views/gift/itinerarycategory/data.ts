@@ -2,6 +2,9 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { GiftItineraryCategoryApi } from '#/api/gift/itinerarycategory';
 
+import { CommonStatusEnum, DICT_TYPE } from '@vben/constants';
+import { getDictOptions } from '@vben/hooks';
+
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
   return [
@@ -38,6 +41,18 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'Input',
       componentProps: {
         placeholder: '请输入排序',
+      },
+    },
+    {
+      fieldName: 'status',
+      label: '状态',
+      rules: 'required',
+      component: 'RadioGroup',
+      defaultValue: CommonStatusEnum.ENABLE,
+      componentProps: {
+        buttonStyle: 'solid',
+        options: getDictOptions(DICT_TYPE.COMMON_STATUS, 'number'),
+        optionType: 'button',
       },
     },
   ];
@@ -83,6 +98,15 @@ export function useGridColumns(): VxeTableGridOptions<GiftItineraryCategoryApi.I
       minWidth: 120,
     },
     {
+      field: 'status',
+      title: '状态',
+      minWidth: 80,
+      cellRender: {
+        name: 'CellDict',
+        props: { type: DICT_TYPE.COMMON_STATUS },
+      },
+    },
+    {
       field: 'createTime',
       title: '创建时间',
       minWidth: 120,
@@ -90,7 +114,7 @@ export function useGridColumns(): VxeTableGridOptions<GiftItineraryCategoryApi.I
     },
     {
       title: '操作',
-      width: 200,
+      width: 260,
       fixed: 'right',
       slots: { default: 'actions' },
     },

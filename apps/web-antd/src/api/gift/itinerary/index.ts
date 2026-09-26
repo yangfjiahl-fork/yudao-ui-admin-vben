@@ -8,7 +8,7 @@ export namespace GiftItineraryApi {
     w: number;
   }
 
-  /** 线路信息 */
+  /** 行程信息 */
   export interface Itinerary {
     id: number; // 主键
     cityId?: number; // 城市ID
@@ -33,7 +33,7 @@ export namespace GiftItineraryApi {
   }
 }
 
-/** 查询线路分页 */
+/** 查询行程分页 */
 export function getItineraryPage(params: PageParam) {
   return requestClient.get<PageResult<GiftItineraryApi.Itinerary>>(
     '/gift/itinerary/page',
@@ -41,36 +41,36 @@ export function getItineraryPage(params: PageParam) {
   );
 }
 
-/** 查询线路详情 */
+/** 查询行程详情 */
 export function getItinerary(id: number) {
   return requestClient.get<GiftItineraryApi.Itinerary>(
     `/gift/itinerary/get?id=${id}`,
   );
 }
 
-/** 新增线路 */
+/** 新增行程 */
 export function createItinerary(data: GiftItineraryApi.Itinerary) {
   return requestClient.post('/gift/itinerary/create', data);
 }
 
-/** 修改线路 */
+/** 修改行程 */
 export function updateItinerary(data: GiftItineraryApi.Itinerary) {
   return requestClient.put('/gift/itinerary/update', data);
 }
 
-/** 删除线路 */
+/** 删除行程 */
 export function deleteItinerary(id: number) {
   return requestClient.delete(`/gift/itinerary/delete?id=${id}`);
 }
 
-/** 批量删除线路 */
+/** 批量删除行程 */
 export function deleteItineraryList(ids: number[]) {
   return requestClient.delete(
     `/gift/itinerary/delete-list?ids=${ids.join(',')}`,
   );
 }
 
-/** 导出线路 */
+/** 导出行程 */
 export function exportItinerary(params: any) {
   return requestClient.download('/gift/itinerary/export-excel', { params });
 }

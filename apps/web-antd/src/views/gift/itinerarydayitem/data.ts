@@ -337,15 +337,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      fieldName: 'slot',
-      label: '节点时段',
-      component: 'Input',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请输入节点时段',
-      },
-    },
-    {
       fieldName: 'title',
       label: '节点标题',
       component: 'Input',
