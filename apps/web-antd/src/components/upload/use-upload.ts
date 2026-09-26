@@ -6,11 +6,25 @@ import { computed, unref } from 'vue';
 
 import { useAppConfig } from '@vben/hooks';
 import { $t } from '@vben/locales';
+import { buildUUID } from '@vben/utils';
 
 import { createFile, getFilePresignedUrl, uploadFile } from '#/api/infra/file';
 import { baseRequestClient } from '#/api/request';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
+
+/** 在原文件名后追加随机值，并保留扩展名 */
+export function createRandomFilenameFile(file: File): File {
+  const extensionIndex = file.name.lastIndexOf('.');
+  const originalName =
+    extensionIndex > 0 ? file.name.slice(0, extensionIndex) : file.name;
+  const extension = extensionIndex > 0 ? file.name.slice(extensionIndex) : '';
+  const filenamePrefix = [...originalName].slice(0, 16).join('');
+  return new File([file], `${filenamePrefix}_${buildUUID()}${extension}`, {
+    lastModified: file.lastModified,
+    type: file.type,
+  });
+}
 
 /**
  * 上传类型

@@ -27,6 +27,7 @@ export interface FileUploadProps {
   modelValue?: string | string[]; // v-model 支持
   maxSize?: number; // 文件最大多少MB
   multiple?: boolean; // 是否支持多选
+  randomFilename?: boolean; // 是否在上传时使用随机文件名（保留扩展名）
   resultField?: string; // support xxx.xxx.xx
   returnText?: boolean; // 是否返回文件文本内容
   showDescription?: boolean; // 是否显示下面的描述

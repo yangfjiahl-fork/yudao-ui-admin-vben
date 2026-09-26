@@ -21,7 +21,11 @@ import {
 import { message, Modal, Upload } from 'ant-design-vue';
 
 import { UploadResultStatus } from './typing';
-import { useUpload, useUploadType } from './use-upload';
+import {
+  createRandomFilenameFile,
+  useUpload,
+  useUploadType,
+} from './use-upload';
 
 defineOptions({ name: 'ImageUpload', inheritAttrs: false });
 
@@ -37,6 +41,7 @@ const props = withDefaults(defineProps<FileUploadProps>(), {
   maxNumber: 1,
   accept: () => defaultImageAccepts,
   multiple: false,
+  randomFilename: false,
   api: undefined,
   resultField: '',
   showDescription: true,
@@ -207,11 +212,15 @@ async function customRequest(info: UploadRequestOption) {
   }
   try {
     // 上传文件
+    const selectedFile = info.file as File;
+    const uploadFile = props.randomFilename
+      ? createRandomFilenameFile(selectedFile)
+      : selectedFile;
     const progressEvent: AxiosProgressEvent = (e) => {
       const percent = Math.trunc((e.loaded / e.total!) * 100);
       info.onProgress!({ percent });
     };
-    const res = await api?.(info.file as File, progressEvent);
+    const res = await api?.(uploadFile, progressEvent);
 
     // 处理上传成功后的逻辑
     handleUploadSuccess(res, info.file as UploadFile);

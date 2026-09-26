@@ -102,6 +102,7 @@ export function useFormSchema(options?: {
         multiple: true,
         onDelete: options?.onPicDelete,
         onFileSelect: options?.onPicFileSelect,
+        randomFilename: true,
       },
       defaultValue: [],
     },
@@ -135,6 +136,7 @@ export function useFormSchema(options?: {
         maxSize: 30,
         onDelete: options?.onCoverDelete,
         onFileSelect: options?.onCoverFileSelect,
+        randomFilename: true,
       },
     },
     {

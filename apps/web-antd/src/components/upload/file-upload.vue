@@ -15,7 +15,11 @@ import { checkFileType, isFunction, isObject, isString } from '@vben/utils';
 import { Button, message, Upload } from 'ant-design-vue';
 
 import { UploadResultStatus } from './typing';
-import { useUpload, useUploadType } from './use-upload';
+import {
+  createRandomFilenameFile,
+  useUpload,
+  useUploadType,
+} from './use-upload';
 
 defineOptions({ name: 'FileUpload', inheritAttrs: false });
 
@@ -31,6 +35,7 @@ const props = withDefaults(defineProps<FileUploadProps>(), {
   maxNumber: 1,
   accept: () => [],
   multiple: false,
+  randomFilename: false,
   api: undefined,
   resultField: '',
   returnText: false,
@@ -191,14 +196,18 @@ async function customRequest(info: UploadRequestOption) {
   }
   try {
     // 上传文件
+    const selectedFile = info.file as File;
+    const uploadFile = props.randomFilename
+      ? createRandomFilenameFile(selectedFile)
+      : selectedFile;
     const progressEvent: AxiosProgressEvent = (e) => {
       const percent = Math.trunc((e.loaded / e.total!) * 100);
       info.onProgress!({ percent });
     };
-    const res = await api?.(info.file as File, progressEvent);
+    const res = await api?.(uploadFile, progressEvent);
 
     // 处理上传成功后的逻辑
-    handleUploadSuccess(res, info.file as File);
+    handleUploadSuccess(res, selectedFile);
 
     info.onSuccess!(res);
     message.success($t('ui.upload.uploadSuccess'));
